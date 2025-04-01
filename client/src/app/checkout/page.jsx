@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 const Checkout = () => {
   const { user } = useAuth();
-  const { cart, loading } = useCart();
+  const { cart, loading, clearCart } = useCart();
 
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
   const [formData, setFormData] = useState({
@@ -96,7 +96,7 @@ const Checkout = () => {
 
     try {
       await axios.put(
-        "http://localhost:8080/api/auth/update",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/update`,
         {
           name: formData.name,
           phone: formData.phone,
@@ -183,13 +183,14 @@ const Checkout = () => {
 
               // Make API call to create order
               const { data: orderRes } = await axios.post(
-                "http://localhost:8080/api/order/create", // Replace with your actual endpoint
+                `${process.env.NEXT_PUBLIC_API_URL}/api/order/create`, // Replace with your actual endpoint
                 orderData, // Send the order data
                 { withCredentials: true } // Include credentials if needed
               );
               console.log(orderRes);
               if (orderRes.success) {
                 // Clear cart (Assuming you have a clearCart function or Redux action)
+                clearCart();
                 alert("Order placed successfully!");
                 router.push("/orders");
               } else {
