@@ -12,7 +12,7 @@ const Form = () => {
   };
 
   return (
-    <div className="py-16 pl-[36rem]">
+    <div className="py-16 lg:pl-[36rem] px-2">
       <form
         onSubmit={handleSubmit}
         action="submit"

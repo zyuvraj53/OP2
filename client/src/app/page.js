@@ -12,18 +12,18 @@ export default function Home() {
     <div className="bg-gray-100">
       <Navbar />
       <section style={{ backgroundImage: "url('/background.jpg')" }} className="bg-no-repeat bg-cover bg-bottom w-full h-screen">
-        <div className="text-[3rem] lg:text-[5rem] pt-5 p-[1rem] lg:p-[3rem] lg:pt-[6rem] font-bold text-white">
+        <div className="lg:text-[5rem] text-[10vw] pt-5 p-[1rem] lg:p-[3rem] lg:pt-[6rem] font-bold text-white">
           Discover
         </div>
-        <div className="text-[3rem] lg:text-[5rem] pt-5 lg:pt-4 pl-[1rem] lg:pl-[3rem] font-bold text-white">
+        <div className="lg:text-[5rem] text-[10vw] pt-5 lg:pt-4 pl-[1rem] lg:pl-[3rem] font-bold text-white">
           Odisha&apos;s Heritage
         </div>
         <div className="pt-[2rem] lg:pt-[3rem] pl-[1rem] lg:pl-[3rem] text-sm lg:text-xl font-semibold text-white">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, nesciunt veniam!
+          OdishaPotli – Where Tradition Meets Handcrafted Elegance
         </div>
 
         <div className="px-[1rem] lg:px-12 mt-6 md:mt-10 lg:pb-[0.1rem] lg:-mb-5 text-white text-sm sm:text-base md:text-lg leading-relaxed">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt possimus fuga magnam culpa sed ab corporis cumque tenetur dicta veniam delectus, beatae harum eligendi? Natus amet at nisi commodi voluptatem facilis nemo autem quae ipsum, placeat suscipit molestiae rem sunt totam perspiciatis maiores magnam quo consequatur assumenda temporibus sequi illo repellat. Magnam ullam veniam repellat totam enim ex deleniti, pariatur inventore quisquam saepe ipsum itaque ad veritatis facilis rerum reiciendis nihil repudiandae accusantium adipisci necessitatibus voluptatem minima ducimus beatae! Cumque omnis ullam praesentium fugiat sint dolore rem sapiente officiis. Vitae libero quae sit odit sint consectetur doloremque suscipit iste. Deserunt.
+          OdishaPotli is your gateway to Odisha&apos;s rich heritage, offering a curated collection of handwoven sarees, handcrafted clothing, and traditional crafts, all meticulously created by skilled artisans. Our mission is to preserve age-old craftsmanship while empowering local artisans through fair trade and sustainable practices. Each purchase directly supports artisan livelihoods, ensuring the legacy of Odisha&apos;s exquisite artistry lives on. From the intricate weaves of Sambalpuri and Bomkai sarees to eco-friendly handcrafted apparel, our collection blends tradition with contemporary elegance. Committed to sustainability, we use natural materials and ethical production methods, making every piece an eco-conscious choice. Explore OdishaPotli and embrace the beauty of authentic craftsmanship while making a meaningful impact!
         </div>
 
         <Link href="/Shop/">
@@ -44,7 +44,7 @@ export default function Home() {
       <StandardisationsAndAssociations />
 
       <div className="flex flex-row justify-between font-bold">
-        <div className="text-[5rem] pl-[50rem] text-black">
+        <div className="text-[10vw] pl-[25vw] text-black">
           <span className="text-amber-700">Contact</span> Us
         </div>
       </div>

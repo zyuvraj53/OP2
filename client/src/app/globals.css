@@ -42,6 +42,13 @@ body {
   justify-content: center;
 }
 
+/* Mobile screens (e.g., below 768px) */
+@media (max-width: 767px) {
+  .embla__slide {
+    flex: 0 0 100%; /* 1 card on mobile screens (100% / 100% = 1) */
+  }
+}
+
 /* For Scrollbar */
 
 ::-webkit-scrollbar {
