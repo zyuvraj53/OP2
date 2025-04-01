@@ -17,7 +17,7 @@ export const useWishlist = () => {
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
-  const API_URL = "http://localhost:8080/api/wishlist";
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/wishlist`;
 
   const fetchWishlist = async () => {
     try {

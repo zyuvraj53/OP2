@@ -181,7 +181,7 @@ function Footer() {
                   </div>
                 </div>
               </Link>
-              <Link href="">
+              <Link href="https://www.youtube.com/@OdishaJourneys">
                 <div className="flex justify-center items-center">
                   <div className="flex items-center justify-center">
                     <button className="flex flex-row justify-center gap-3">
