@@ -12,7 +12,7 @@ const Form = () => {
   };
 
   return (
-    <div className="py-16 lg:pl-[36rem] px-2">
+    <div className="py-16 flex justify-center items-center min-w-1/2 ">
       <form
         onSubmit={handleSubmit}
         action="submit"

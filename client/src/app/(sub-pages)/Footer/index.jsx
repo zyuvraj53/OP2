@@ -123,7 +123,7 @@ function Footer() {
           </div>
           <div className="section-4 pb-6">
             <div className="lg:pb-6 pb-3 pt-6 text-bold">Socials</div>
-            <div>
+            <div className="flex lg:flex-col flex-row justify-center items-center lg:gap-0 gap-6">
               <Link href="https://www.instagram.com/odishapotli?igsh=NmIzZ2FhcHI2YzZw">
                 <div className="flex justify-center items-center">
                   <div className="flex items-center justify-center">

@@ -14,7 +14,7 @@ const SearchBar = ({ searchTerm, onSearchChange }) => {
         value={searchTerm}
         onChange={handleSearch}
         placeholder="Search products by name..."
-        className="w-full p-2 text-base border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="w-full p-2 text-base border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
       />
     </div>
   );

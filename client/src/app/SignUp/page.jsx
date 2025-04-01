@@ -30,8 +30,7 @@ const SignUp = () => {
   const [sex, setSex] = useState("");
   const [address, setAddress] = useState("");
 
-  const API_URL = "http://localhost:8080/api/auth/register";
-  const API_BASE_URL = "http://localhost:8080";
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`;
 
   const handleNext = () => {
     if (email && password) {
@@ -81,7 +80,7 @@ const SignUp = () => {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = `${API_BASE_URL}/auth/google`;
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
   };
 
   if (!hasMounted) return null;

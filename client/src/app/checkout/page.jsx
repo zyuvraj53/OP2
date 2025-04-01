@@ -273,7 +273,7 @@ const Checkout = () => {
           <h2 className="text-xl font-semibold text-[#eca72f]">
             Shipping Details
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-black">
             {[
               "name",
               "email",
@@ -290,7 +290,7 @@ const Checkout = () => {
                   placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className="w-full p-2 border border-gray-300 rounded placeholder-gray-500 text-black"
                 />
                 {errors[field] && (
                   <p className="text-red-500 text-sm">{errors[field]}</p>

@@ -4,11 +4,11 @@ import React from "react";
 
 const WhoAreWe = () => {
   return (
-    <div className="w-full px-16 pb-[5rem]">
+    <div className="w-full px-4 pb-[5rem]">
       <div className="pt-[16rem] font-bold lg:text-[5rem] text-[10vw] pb-[5rem] text-center text-black">
         <span className="text-amber-800">Who Are</span> We?
       </div>
-      <div className="font-semibold text-lg max-w-7xl mx-auto text-black lg:text-left text-center">
+      <div className="font-semibold text-lg max-w-7xl mx-auto text-black lg:text-left text-justify">
         <p>
           Welcome to <strong>OdishaPotli</strong> – your ultimate destination for
           <strong> authentic handmade sarees, crafts, and traditional clothing</strong>
