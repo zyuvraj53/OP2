@@ -20,17 +20,16 @@ export const createOrder = async (req, res) => {
 
       // Check if there is enough stock
       if (product.stock < item.quantity) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            error: `Not enough stock for ${product.name}`,
-          });
+        return res.status(400).json({
+          success: false,
+          error: `Not enough stock for ${product.name}`,
+        });
       }
 
       // Reduce stock of the product
       product.stock -= item.quantity;
       await product.save();
+      console.log("product stock updated");
 
       totalAmount += product.price * item.quantity;
     }
@@ -45,6 +44,11 @@ export const createOrder = async (req, res) => {
     });
 
     await order.save();
+
+    console.log("order saved");
+
+    console.log(order);
+
     res.status(201).json({ success: true, order });
   } catch (error) {
     console.error("Error creating order:", error);

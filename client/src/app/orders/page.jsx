@@ -63,7 +63,7 @@ const OrdersPage = () => {
             <div className="space-y-6">
               {orders.map((order) => {
                 const productImage =
-                  order.items[0]?.productId?.images[0] || "/file.svg";
+                  order.items[0]?.productId?.images?.[0] || "/file.svg";
                 const productPrice =
                   order.items[0]?.productId?.price || order.totalAmount;
                 const productName =
