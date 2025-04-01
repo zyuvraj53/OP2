@@ -74,7 +74,7 @@ export default function Admin() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/product/pid",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/pid`,
         { pid: searchPid.trim() },
         {
           withCredentials: true,
@@ -135,7 +135,7 @@ export default function Admin() {
 
     try {
       await axios.put(
-        `http://localhost:8080/api/product/${productData._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${productData._id}`,
         formData,
         {
           headers: {

@@ -69,31 +69,31 @@ export default function Admin() {
   }, [user, router]);
 
   // Fixed Line 85: Added proper typing for Cloudinary result
-  const handleUploadSuccess = result => {
+  const handleUploadSuccess = (result) => {
     if (!result.info || typeof result.info === "string") return;
     const newImage = {
       id: result.info.public_id,
       url: result.info.secure_url,
     };
-    setImages(prev => [...prev, newImage]);
+    setImages((prev) => [...prev, newImage]);
   };
 
-  const handleRemoveImage = id => {
-    setImages(prev => prev.filter(img => img.id !== id));
+  const handleRemoveImage = (id) => {
+    setImages((prev) => prev.filter((img) => img.id !== id));
   };
 
-  const handleDragEnd = event => {
+  const handleDragEnd = (event) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
-      setImages(items => {
-        const oldIndex = items.findIndex(item => item.id === active.id);
-        const newIndex = items.findIndex(item => item.id === over.id);
+      setImages((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
         return arrayMove(items, oldIndex, newIndex);
       });
     }
   };
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     if (images.length === 0) {
       setSubmitError("At least one image is required");
       setSubmitSuccess(null);
@@ -109,7 +109,7 @@ export default function Admin() {
       stock: Number(data.stock),
       category: data.category,
       brand: data.brand,
-      images: images.map(img => img.url),
+      images: images.map((img) => img.url),
       ratings: {
         fakeRating: Number(data.fakeRating),
       },
@@ -117,7 +117,7 @@ export default function Admin() {
 
     //   try {
     //     // Fixed Line 132: Use the response if needed or remove unused variable
-    //     await axios.post("http://localhost:8080/api/product/create", productData, {
+    //     await axios.post("${process.env.NEXT_PUBLIC_API_URL}/api/product/create", productData, {
     //       headers: {
     //         "Content-Type": "application/json",
     //       },
@@ -134,7 +134,7 @@ export default function Admin() {
     try {
       console.log("Sending productData:", JSON.stringify(productData, null, 2));
       const response = await axios.post(
-        "http://localhost:8080/api/product/create",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/create`,
         productData,
         {
           headers: {
@@ -304,7 +304,7 @@ export default function Admin() {
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
                 >
                   <option value="">Select a category</option>
-                  {categories.map(category => (
+                  {categories.map((category) => (
                     <option key={category} value={category}>
                       {category}
                     </option>
@@ -374,9 +374,9 @@ export default function Admin() {
                     collisionDetection={closestCenter}
                     onDragEnd={handleDragEnd}
                   >
-                    <SortableContext items={images.map(img => img.id)}>
+                    <SortableContext items={images.map((img) => img.id)}>
                       <div className="mt-4 space-y-2">
-                        {images.map(img => (
+                        {images.map((img) => (
                           <SortableImage
                             key={img.id}
                             id={img.id}
