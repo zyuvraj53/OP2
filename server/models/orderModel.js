@@ -16,7 +16,7 @@ const OrderSchema = new mongoose.Schema(
           required: true,
         },
         quantity: { type: Number, required: true, min: 1 },
-        price: { type: Number, required: true },
+        price: { type: Number },
       },
     ], // Ordered Products
 
@@ -29,7 +29,7 @@ const OrderSchema = new mongoose.Schema(
 
     paymentMethod: {
       type: String,
-      enum: ["COD", "Credit Card", "PayPal"],
+      enum: ["COD", "Credit Card", "RazorPay"],
       required: true,
     }, // Payment Method
     transactionId: { type: String }, // Transaction ID (For online payments)

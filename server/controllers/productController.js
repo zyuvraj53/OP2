@@ -75,7 +75,6 @@ export const createProductController = async (req, res) => {
 };
 
 // ✅ Update a product by ID
-// ✅ Update a product by ID
 export const updateProductController = async (req, res) => {
   try {
     const { id } = req.params;
@@ -246,20 +245,20 @@ export const searchController = async (req, res) => {
 
 export const getNewProductController = async (req, res) => {
   try {
-    const last24Hours = new Date();
-    last24Hours.setDate(last24Hours.getDate() - 1); // Subtract 1 day
+    const lastMonth = new Date();
+    lastMonth.setMonth(lastMonth.getMonth() - 1);
+    lastMonth.setHours(0, 0, 0, 0); // Set time to start of the day
 
     const products = await Product.find({
-      createdAt: { $gte: last24Hours },
+      createdAt: { $gte: lastMonth },
     }).populate("category", "name");
 
     res.status(200).json({ success: true, products });
   } catch (error) {
-    console.error("Error fetching new products:", error);
+    console.error("Error fetching new products:", error.message);
     res.status(500).json({
       success: false,
       message: "Error fetching new products",
-      error: error.message,
     });
   }
 };

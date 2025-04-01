@@ -6,7 +6,9 @@ import {
   updateOrderStatus,
   deleteOrder,
   orderTest,
+  getOrdersByUser,
 } from "../controllers/orderController.js";
+import { requireSignIn } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ const router = express.Router();
 router.get("/test", orderTest);
 
 // Create a new order
-router.post("/create", createOrder);
+router.post("/create", requireSignIn, createOrder);
 
 // Get all orders
 router.get("/", getAllOrders);
@@ -25,6 +27,7 @@ router.get("/order/:orderId", getOrderById); // Changed to /order/:orderId ✅
 // Update order status
 router.put("/order/:orderId/status", updateOrderStatus); // Changed ✅
 
+router.get("/orders/user", requireSignIn, getOrdersByUser);
 // Delete an order
 router.delete("/order/:orderId", deleteOrder); // Changed ✅
 

@@ -40,13 +40,10 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:8080/auth/google/callback",
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log("Google Profile Data:", profile);
-        console.log("Access Token:", accessToken);
-        console.log("Refresh Token:", refreshToken);
         // Check if user already exists in DB
         let user = await User.findOne({ googleId: profile.id });
 
@@ -83,9 +80,6 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // Routes
-router.get("/", (req, res) => {
-  res.send("<a href='/auth/google'>Login with Google</a>");
-});
 
 router.get(
   "/auth/google",
@@ -97,7 +91,7 @@ router.get(
   passport.authenticate("google"),
   (req, res) => {
     if (!req.user) {
-      return res.redirect("http://localhost:3000/login-failed");
+      return res.redirect(`${process.env.CLIENT_URL}/SignUp`);
     }
 
     // 🔹 Generate JWT Token
@@ -113,7 +107,7 @@ router.get(
     });
 
     // 🔹 Redirect to Home Page on Success
-    res.redirect("http://localhost:3000/");
+    res.redirect(process.env.CLIENT_URL);
   }
 );
 
@@ -123,34 +117,6 @@ router.get("/logout", (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 });
 
-// ✅ Protect Profile Route using JWT
-// router.get("/profile", async (req, res) => {
-//   try {
-//     // Get token from either Cookies or Authorization Header
-//     const token =
-//       req.cookies.authToken || req.headers.authorization?.split(" ")[1];
-
-//     if (!token) {
-//       return res.status(401).json({ error: "Unauthorized: No token found" });
-//     }
-
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     const user = await User.findOne({ uid: decoded.uid });
-
-//     if (!user) {
-//       return res.status(401).json({ error: "User not found" });
-//     }
-
-//     res.json({
-//       id: user.id,
-//       name: user.name,
-//       email: user.email,
-//       images: user.images,
-//     });
-//   } catch (error) {
-//     res.status(401).json({ error: "Invalid or Expired Token" });
-//   }
-// });
 router.get("/profile", getProfile);
 
 export default router;

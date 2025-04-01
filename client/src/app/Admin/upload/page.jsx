@@ -1,10 +1,9 @@
 "use client";
 
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
-
 
 const categories = [
   "Nuapatna Silk",
@@ -46,12 +45,12 @@ export default function Admin() {
       fakeRating: 0,
       average: 0,
       count: 0,
-      reviews: []
-    }
+      reviews: [],
+    },
   });
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
- useEffect(() => {
+  useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (!user) {
         router.push("/");
@@ -69,18 +68,16 @@ export default function Admin() {
       setError("Please enter a PID");
       return;
     }
-    
+
     setError(null);
     setIsChecking(true);
-    
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/product/pid",
         { pid: searchPid.trim() },
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          withCredentials: true,
         }
       );
       const { product } = response.data;
@@ -89,8 +86,8 @@ export default function Admin() {
         ...product,
         ratings: {
           ...product.ratings,
-          reviews: product.ratings.reviews || []
-        }
+          reviews: product.ratings.reviews || [],
+        },
       });
     } catch (err) {
       console.error("Error fetching product:", err);
@@ -101,8 +98,8 @@ export default function Admin() {
           fakeRating: 0,
           average: 0,
           count: 0,
-          reviews: []
-        }
+          reviews: [],
+        },
       });
     } finally {
       setIsChecking(false);
@@ -111,30 +108,31 @@ export default function Admin() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Handle nested ratings fields
-    if (name.includes('ratings.')) {
-      const [parent, field] = name.split('.');
-      setFormData(prev => ({
+    if (name.includes("ratings.")) {
+      const [parent, field] = name.split(".");
+      setFormData((prev) => ({
         ...prev,
         [parent]: {
-          ...(prev[parent] ),
-          [field]: Number(value)
-        }
+          ...prev[parent],
+          [field]: Number(value),
+        },
       }));
-    } 
+    }
     // Handle regular fields
     else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: name.includes("Price") || name === "stock" ? Number(value) : value
+        [name]:
+          name.includes("Price") || name === "stock" ? Number(value) : value,
       }));
     }
   };
 
   const handleUpdate = async () => {
     if (!productData) return;
-    
+
     try {
       await axios.put(
         `http://localhost:8080/api/product/${productData._id}`,
@@ -154,7 +152,11 @@ export default function Admin() {
   };
 
   if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -162,7 +164,9 @@ export default function Admin() {
       <div className="flex-grow">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-6 text-gray-800">Find Product by PID</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-800">
+              Find Product by PID
+            </h1>
 
             <div className="mb-6 space-y-4">
               <div>
@@ -206,7 +210,9 @@ export default function Admin() {
                 <h2 className="text-xl font-semibold mb-4">Edit Product</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">PID</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      PID
+                    </label>
                     <input
                       type="text"
                       name="pid"
@@ -217,7 +223,9 @@ export default function Admin() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Name</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Name
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -227,7 +235,9 @@ export default function Admin() {
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">Description</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Description
+                    </label>
                     <textarea
                       name="description"
                       value={formData.description || ""}
@@ -237,7 +247,9 @@ export default function Admin() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Actual Price</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Actual Price
+                    </label>
                     <input
                       type="number"
                       name="actualPrice"
@@ -248,7 +260,9 @@ export default function Admin() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Selling Price</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Selling Price
+                    </label>
                     <input
                       type="number"
                       name="price"
@@ -259,7 +273,9 @@ export default function Admin() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Cut Price</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Cut Price
+                    </label>
                     <input
                       type="number"
                       name="cutPrice"
@@ -270,7 +286,9 @@ export default function Admin() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Stock</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Stock
+                    </label>
                     <input
                       type="number"
                       name="stock"
@@ -280,7 +298,9 @@ export default function Admin() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Category</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Category
+                    </label>
                     <select
                       name="category"
                       value={formData.category || ""}
@@ -288,13 +308,17 @@ export default function Admin() {
                       className="mt-1 block w-full border border-gray-300 rounded-md p-2"
                     >
                       <option value="">Select a category</option>
-                      {categories.map(category => (
-                        <option key={category} value={category}>{category}</option>
+                      {categories.map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Brand</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Brand
+                    </label>
                     <input
                       type="text"
                       name="brand"
@@ -304,7 +328,9 @@ export default function Admin() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Fake Rating (1-5)</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Fake Rating (1-5)
+                    </label>
                     <input
                       type="number"
                       name="ratings.fakeRating"
@@ -327,7 +353,9 @@ export default function Admin() {
                 </div>
 
                 <div className="mt-8">
-                  <h3 className="text-lg font-medium mb-2">Current Product Data</h3>
+                  <h3 className="text-lg font-medium mb-2">
+                    Current Product Data
+                  </h3>
                   <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">
                     {JSON.stringify(productData, null, 2)}
                   </pre>

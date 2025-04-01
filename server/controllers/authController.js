@@ -2,8 +2,8 @@ import User from "../models/userModel.js";
 import { hashPassword, comparePassword } from "../helpers/authHelper.js";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
-const REFRESH_SECRET = process.env.REFRESH_SECRET || "your_refresh_secret";
+const JWT_SECRET = process.env.JWT_SECRET || "jisdbiuusdbf";
+const REFRESH_SECRET = process.env.REFRESH_SECRET || "jsdfoisncsdncoi";
 const refreshTokens = new Set(); // Store refresh tokens temporarily
 
 export const register = async (req, res) => {

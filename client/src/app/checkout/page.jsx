@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Checkout = () => {
   const { user } = useAuth();
@@ -24,11 +25,22 @@ const Checkout = () => {
 
   const [errors, setErrors] = useState({});
   const [updating, setUpdating] = useState(false);
+  const router = useRouter();
+  const [items, setItems] = useState([]);
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   useEffect(() => {
     console.log("User details:", user);
     console.log("Cart details:", cart);
+    console.log("Cart data:", cart);
+
+    // Extract and set items state from the cart
+    const cartItems = cart.map((item) => ({
+      productId: item.productId._id, // Assuming productId is nested under _id
+      quantity: item.quantity,
+      price: item.price,
+    }));
+    setItems(cartItems);
   }, [user, cart]);
 
   useEffect(() => {
@@ -100,7 +112,8 @@ const Checkout = () => {
     }
   };
 
-  const totalAmount = cart?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
+  const totalAmount =
+    cart?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
 
   const paymentHandler = async () => {
     if (!razorpayLoaded) {
@@ -119,7 +132,11 @@ const Checkout = () => {
     try {
       const { data: order } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/payment/order`,
-        { amount: totalAmount * 100, currency: "INR", receipt: "order_rcptid_11" }
+        {
+          amount: totalAmount * 100,
+          currency: "INR",
+          receipt: "order_rcptid_11",
+        }
       );
 
       if (!order.id) throw new Error("Order creation failed");
@@ -128,15 +145,66 @@ const Checkout = () => {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: totalAmount * 100,
         currency: "INR",
-        name: "E-Commerce Store",
+        name: "odhisha potli",
         description: "Order Payment",
         order_id: order.id,
         handler: async (response) => {
-          const { data: jsonRes } = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/payment/validate`,
-            response
-          );
-          alert(jsonRes.msg);
+          try {
+            const { data: jsonRes } = await axios.post(
+              `${process.env.NEXT_PUBLIC_API_URL}/api/payment/validate`,
+              response
+            );
+            alert(jsonRes.msg);
+            if (jsonRes.msg == "Success") {
+              // Call create order API
+              // const items = cart.map((item) => ({
+              //   productId: item.productId._id, // Extract productId (_id)
+              //   quantity: item.quantity,
+              //   price: item.price,
+              // }));
+
+              // console.log(items[0]);
+              // console.log(items[1]);
+
+              // console.log(formData.address);
+              // console.log(totalAmount);
+
+              const orderData = {
+                items: items.map((item) => ({
+                  productId: item.productId,
+                  quantity: item.quantity,
+                })),
+                paymentMethod: "COD", // You can adjust this to be dynamic as needed
+                shippingAddress: formData.address,
+              };
+
+              // Log the orderData to check structure
+              console.log("Order Data:", orderData);
+
+              // Make API call to create order
+              const { data: orderRes } = await axios.post(
+                "http://localhost:8080/api/order/create", // Replace with your actual endpoint
+                orderData, // Send the order data
+                { withCredentials: true } // Include credentials if needed
+              );
+              console.log(orderRes);
+              if (orderRes.success) {
+                // Clear cart (Assuming you have a clearCart function or Redux action)
+                alert("Order placed successfully!");
+                router.push("/orders");
+              } else {
+                alert("Order creation failed. Please contact support.");
+              }
+            } else {
+              alert("Payment validation failed.");
+            }
+          } catch (error) {
+            console.error(
+              "Order creation or payment validation failed:",
+              error
+            );
+            alert("Error processing order. Please contact support.");
+          }
         },
         prefill: {
           name: formData.name,
@@ -175,7 +243,9 @@ const Checkout = () => {
             street: data.address.road || "",
             city: data.address.city || data.address.town || "",
             zip: data.address.postcode || "",
-            address: `${data.address.road || ""}, ${data.address.city || data.address.town || ""} - ${data.address.postcode || ""}`,
+            address: `${data.address.road || ""}, ${
+              data.address.city || data.address.town || ""
+            } - ${data.address.postcode || ""}`,
           }));
         }
       } catch (error) {
@@ -188,7 +258,9 @@ const Checkout = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#d99527] mb-6">Checkout</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#d99527] mb-6">
+          Checkout
+        </h1>
 
         <button
           onClick={locateMe}
@@ -198,9 +270,19 @@ const Checkout = () => {
         </button>
 
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 mt-6">
-          <h2 className="text-xl font-semibold text-[#eca72f]">Shipping Details</h2>
+          <h2 className="text-xl font-semibold text-[#eca72f]">
+            Shipping Details
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            {["name", "email", "phone", "apartment", "street", "city", "zip"].map((field) => (
+            {[
+              "name",
+              "email",
+              "phone",
+              "apartment",
+              "street",
+              "city",
+              "zip",
+            ].map((field) => (
               <div key={field}>
                 <input
                   type="text"
@@ -210,7 +292,9 @@ const Checkout = () => {
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded"
                 />
-                {errors[field] && <p className="text-red-500 text-sm">{errors[field]}</p>}
+                {errors[field] && (
+                  <p className="text-red-500 text-sm">{errors[field]}</p>
+                )}
               </div>
             ))}
           </div>
@@ -223,7 +307,9 @@ const Checkout = () => {
             {updating ? "Updating..." : "Update Details"}
           </button>
           {updateSuccess && (
-            <p className="text-green-500 text-sm mt-2">Details updated successfully!</p>
+            <p className="text-green-500 text-sm mt-2">
+              Details updated successfully!
+            </p>
           )}
         </div>
 
@@ -247,7 +333,9 @@ const Checkout = () => {
                       />
                     </Link>
                     <div className="flex-1">
-                      <h2 className="text-lg font-semibold text-[#eca72f]">{item.productId.name}</h2>
+                      <h2 className="text-lg font-semibold text-[#eca72f]">
+                        {item.productId.name}
+                      </h2>
                       <p className="text-gray-700">₹{item.price}</p>
                     </div>
                   </div>

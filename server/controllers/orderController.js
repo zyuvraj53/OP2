@@ -1,10 +1,12 @@
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
+import { requireSignIn } from "../middleware/authMiddleware.js"; // Import middleware
 
 // Create Order
 export const createOrder = async (req, res) => {
   try {
-    const { user, items, paymentMethod, shippingAddress } = req.body;
+    const { items, paymentMethod, shippingAddress } = req.body;
+    const user = req.user._id; // Get the user from the middleware
 
     // Validate products & calculate totalAmount
     let totalAmount = 0;
@@ -15,11 +17,26 @@ export const createOrder = async (req, res) => {
           .status(400)
           .json({ success: false, error: "Invalid product ID" });
       }
+
+      // Check if there is enough stock
+      if (product.stock < item.quantity) {
+        return res
+          .status(400)
+          .json({
+            success: false,
+            error: `Not enough stock for ${product.name}`,
+          });
+      }
+
+      // Reduce stock of the product
+      product.stock -= item.quantity;
+      await product.save();
+
       totalAmount += product.price * item.quantity;
     }
 
     const order = new Order({
-      user,
+      user: user._id, // Ensure that user is saved as the user's ID
       items,
       totalAmount,
       paymentMethod,
@@ -31,6 +48,31 @@ export const createOrder = async (req, res) => {
     res.status(201).json({ success: true, order });
   } catch (error) {
     console.error("Error creating order:", error);
+    res
+      .status(500)
+      .json({ success: false, error: "Server error", message: error.message });
+  }
+};
+
+// Apply the requireSignIn middleware to your route (e.g., in your routes file)
+// e.g., app.post("/api/orders", requireSignIn, createOrder);
+
+// Get orders by user
+export const getOrdersByUser = async (req, res) => {
+  try {
+    const userId = req.user._id; // Use user from middleware
+
+    const orders = await Order.find({ user: userId })
+      .populate("items.productId", "name price images") // Populate product info
+      .populate("user", "name email "); // Populate user info
+
+    if (!orders || orders.length === 0) {
+      return res.status(200).json({ success: true, orders: [] });
+    }
+
+    res.status(200).json({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
     res
       .status(500)
       .json({ success: false, error: "Server error", message: error.message });
