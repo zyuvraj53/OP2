@@ -40,7 +40,7 @@ const Form = () => {
 
         {/* Email Field */}
         <div className="mb-4">
-          <label htmlFor="email" className="block text-lg font-medium text-gray-700 mb-1">
+          //<label htmlFor="email" className="block text-lg font-medium text-gray-700 mb-1">
             Email
           </label>
           <input
