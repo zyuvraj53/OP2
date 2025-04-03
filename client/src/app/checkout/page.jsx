@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Navbar from "../(components)/Navbar";
 
 const Checkout = () => {
   const { user } = useAuth();

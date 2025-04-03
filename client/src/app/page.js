@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="bg-oplight">
+    <div className="bg-gray-100">
       <Navbar />
       <section
         style={{ backgroundImage: "url('/background.jpg')" }}

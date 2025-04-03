@@ -16,7 +16,7 @@ const PhoneNumber = () => {
     const handleChange = (e) => setIsMediumScreen(e.matches);
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [window]); 
+  }, []); 
 
   const inputStyle = {
     width: isMediumScreen ? "528px" : "100%",
