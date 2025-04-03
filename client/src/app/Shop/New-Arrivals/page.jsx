@@ -7,31 +7,41 @@ import Navbar from "../../(components)/Navbar";
 import axios from "axios";
 import ProductCard from "../../(components)/ProductCard";
 import SearchBar from "../../(components)/SearchBar";
+import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
   const [selectedRating, setSelectedRating] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 600]);
   const [sortByPopularity, setSortByPopularity] = useState(false);
   const [sortByPrice, setSortByPrice] = useState(false);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState({});
   const [wishlist, setWishlist] = useState([]);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
 
   // Handlers
-  const addToCart = (id) => setCart((prev) => [...prev, id]);
+  const addToCart = (id) => {
+    setCart((prev) => ({
+      ...prev,
+      [id]: (prev[id] || 0) + 1,
+    }));
+  };
+
   const toggleWishlist = (id) =>
     setWishlist((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
 
+  const handleViewCart = () => {
+    router.push("/cart"); // Adjust route as needed
+  };
+
   // Fetch products
   useEffect(() => {
     axios
-      .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/new`
-      )
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/product/new`)
       .then((res) => {
         setData(res.data.products);
         setError(null);
@@ -128,35 +138,6 @@ export default function ProductsPage() {
               )}
             />
           </div>
-
-          {/* Sorting Checkboxes */}
-          <div>
-            <h3 className="text-lg font-semibold text-[#eca72f] mb-3">Sort By</h3>
-            <label className="flex items-center mb-3">
-              <input
-                type="checkbox"
-                checked={sortByPopularity}
-                onChange={() => {
-                  setSortByPopularity(!sortByPopularity);
-                  setSortByPrice(false);
-                }}
-                className="w-4 h-4 text-[#d99527] border-gray-300 rounded focus:ring-[#eca72f]"
-              />
-              <span className="ml-2 text-gray-700">Popularity</span>
-            </label>
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={sortByPrice}
-                onChange={() => {
-                  setSortByPrice(!sortByPrice);
-                  setSortByPopularity(false);
-                }}
-                className="w-4 h-4 text-[#d99527] border-gray-300 rounded focus:ring-[#eca72f]"
-              />
-              <span className="ml-2 text-gray-700">Price (Low to High)</span>
-            </label>
-          </div>
         </aside>
 
         {/* Product Grid */}
@@ -181,6 +162,28 @@ export default function ProductsPage() {
                   wishlist={wishlist}
                   addToCart={addToCart}
                   toggleWishlist={toggleWishlist}
+                  renderCartButton={() =>
+                    cart[product._id] ? (
+                      <div className="flex gap-2 items-center">
+                        <span className="bg-[#d99527] text-white px-3 py-1 rounded-md">
+                          {cart[product._id]} in Cart
+                        </span>
+                        <button
+                          onClick={handleViewCart}
+                          className="bg-gray-300 text-gray-800 px-3 py-1 rounded-md"
+                        >
+                          View in Cart
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => addToCart(product._id)}
+                        className="bg-[#d99527] text-white px-4 py-2 rounded-md hover:bg-[#eca72f] transition"
+                      >
+                        Add to Cart
+                      </button>
+                    )
+                  }
                 />
               ))}
             </div>

@@ -65,7 +65,7 @@ export default function Admin() {
       } else {
         setIsLoading(false);
       }
-    }, 500);
+    }, 2500);
     return () => clearTimeout(timeoutId);
   }, [user, router]);
 

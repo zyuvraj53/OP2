@@ -28,15 +28,17 @@ const Checkout = () => {
   const router = useRouter();
   const [items, setItems] = useState([]);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [updateError, setUpdateError] = useState(null);
+  const [paymentError, setPaymentError] = useState(null);
+  const [locationError, setLocationError] = useState(null);
 
   useEffect(() => {
     console.log("User details:", user);
     console.log("Cart details:", cart);
     console.log("Cart data:", cart);
 
-    // Extract and set items state from the cart
     const cartItems = cart.map((item) => ({
-      productId: item.productId._id, // Assuming productId is nested under _id
+      productId: item.productId._id,
       quantity: item.quantity,
       price: item.price,
     }));
@@ -63,7 +65,7 @@ const Checkout = () => {
     document.body.appendChild(script);
 
     return () => {
-      document.body.removeChild(script); // Cleanup
+      document.body.removeChild(script);
     };
   }, []);
 
@@ -93,9 +95,10 @@ const Checkout = () => {
 
     setUpdating(true);
     setUpdateSuccess(false);
+    setUpdateError(null);
 
     try {
-      await axios.put(
+      const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/update`,
         {
           name: formData.name,
@@ -104,9 +107,13 @@ const Checkout = () => {
         },
         { withCredentials: true }
       );
+      if (response.status !== 200) {
+        throw new Error("Failed to update user details.");
+      }
       setUpdateSuccess(true);
     } catch (error) {
       console.error("Error updating user:", error);
+      setUpdateError("Failed to update details. Please try again.");
     } finally {
       setUpdating(false);
     }
@@ -128,6 +135,8 @@ const Checkout = () => {
       alert("Cart is empty. Add items before proceeding.");
       return;
     }
+
+    setPaymentError(null);
 
     try {
       const { data: order } = await axios.post(
@@ -155,41 +164,25 @@ const Checkout = () => {
               response
             );
             alert(jsonRes.msg);
-            if (jsonRes.msg == "Success") {
-              // Call create order API
-              // const items = cart.map((item) => ({
-              //   productId: item.productId._id, // Extract productId (_id)
-              //   quantity: item.quantity,
-              //   price: item.price,
-              // }));
-
-              // console.log(items[0]);
-              // console.log(items[1]);
-
-              // console.log(formData.address);
-              // console.log(totalAmount);
-
+            if (jsonRes.msg === "Success") {
               const orderData = {
                 items: items.map((item) => ({
                   productId: item.productId,
                   quantity: item.quantity,
                 })),
-                paymentMethod: "COD", // You can adjust this to be dynamic as needed
+                paymentMethod: "COD",
                 shippingAddress: formData.address,
               };
 
-              // Log the orderData to check structure
               console.log("Order Data:", orderData);
 
-              // Make API call to create order
               const { data: orderRes } = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/order/create`, // Replace with your actual endpoint
-                orderData, // Send the order data
-                { withCredentials: true } // Include credentials if needed
+                `${process.env.NEXT_PUBLIC_API_URL}/api/order/create`,
+                orderData,
+                { withCredentials: true }
               );
               console.log(orderRes);
               if (orderRes.success) {
-                // Clear cart (Assuming you have a clearCart function or Redux action)
                 clearCart();
                 alert("Order placed successfully!");
                 router.push("/orders");
@@ -222,7 +215,7 @@ const Checkout = () => {
       rzp1.open();
     } catch (error) {
       console.error("Payment Error:", error);
-      alert("Payment failed, please try again.");
+      setPaymentError("Payment failed, please try again.");
     }
   };
 
@@ -232,28 +225,37 @@ const Checkout = () => {
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const { latitude, longitude } = position.coords;
-      try {
-        const { data } = await axios.get(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-        );
-        if (data.address) {
-          setFormData((prev) => ({
-            ...prev,
-            street: data.address.road || "",
-            city: data.address.city || data.address.town || "",
-            zip: data.address.postcode || "",
-            address: `${data.address.road || ""}, ${
-              data.address.city || data.address.town || ""
-            } - ${data.address.postcode || ""}`,
-          }));
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        console.log(latitude, longitude);
+        try {
+          const { data } = await axios.get(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          if (data.address) {
+            setFormData((prev) => ({
+              ...prev,
+              street: data.address.road || "",
+              city: data.address.city || data.address.town || "",
+              zip: data.address.postcode || "",
+              address: `${data.address.road || ""}, ${
+                data.address.city || data.address.town || ""
+              } - ${data.address.postcode || ""}`,
+            }));
+          }
+        } catch (error) {
+          console.error("Error fetching location:", error);
+          setLocationError("Could not fetch location details.");
         }
-      } catch (error) {
-        console.error("Error fetching location:", error);
-        alert("Could not fetch location details.");
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        setLocationError("Could not get your location.");
       }
-    });
+    );
   };
 
   return (
@@ -271,6 +273,9 @@ const Checkout = () => {
         >
           Locate Me
         </button>
+          {locationError && (
+              <p className="text-red-500 text-sm mt-2">{locationError}</p>
+          )}
 
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 mt-6">
           <h2 className="text-xl font-semibold text-[#eca72f]">
@@ -314,6 +319,9 @@ const Checkout = () => {
               Details updated successfully!
             </p>
           )}
+          {updateError && (
+              <p className="text-red-500 text-sm mt-2">{updateError}</p>
+          )}
         </div>
 
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 mt-6">
@@ -353,6 +361,9 @@ const Checkout = () => {
               >
                 Pay ₹{totalAmount.toFixed(2)}
               </button>
+              {paymentError && (
+                  <p className="text-red-500 text-sm mt-2">{paymentError}</p>
+              )}
             </>
           ) : (
             <p className="text-gray-500">Cart is empty.</p>
