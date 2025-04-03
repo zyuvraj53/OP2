@@ -63,7 +63,7 @@ const SignIn = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your email"
-              className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors"
+              className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors text-black placeholder-gray-600"
             />
           </div>
 
@@ -78,7 +78,7 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Enter your password"
-              className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors"
+              className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors text-black placeholder-gray-600"
             />
           </div>
 
