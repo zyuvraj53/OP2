@@ -89,14 +89,14 @@ export const loginUser = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", 
       maxAge: 1 * 24 * 60 * 60 * 1000, // 1d
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Lax for localhost
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -143,7 +143,7 @@ export const refreshToken = (req, res) => {
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "Strict",
+        sameSite: "None",
         maxAge: 1 * 24 * 60 * 60 * 1000, // 1day
       });
 
@@ -155,9 +155,25 @@ export const refreshToken = (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
-  res.clearCookie("authToken");
+  // Clear cookies with explicit options
+  res.clearCookie("accessToken", {
+    httpOnly: true, // Match original cookie settings
+    secure: process.env.NODE_ENV === "production", // Secure in production
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Lax for localhost
+    path: "/", // Ensure path matches how it was set
+  });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Lax for localhost
+    path: "/",
+  });
+  res.clearCookie("authToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Lax for localhost
+    path: "/",
+  });
 
   res.status(200).json({ success: true, message: "Logout successful" });
 };

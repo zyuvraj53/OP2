@@ -106,7 +106,7 @@ const SignUp = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="Enter your email"
-                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors"
+                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors text-black placeholder-gray-600"
                 />
               </div>
 
@@ -121,7 +121,7 @@ const SignUp = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Enter your password"
-                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors"
+                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors text-black placeholder-gray-600"
                 />
               </div>
 
@@ -146,7 +146,7 @@ const SignUp = () => {
                   onChange={(e) => setName(e.target.value)}
                   required
                   placeholder="Enter your name"
-                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors"
+                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors text-black placeholder-gray-600"
                 />
               </div>
 
@@ -159,7 +159,7 @@ const SignUp = () => {
                   value={sex}
                   onChange={(e) => setSex(e.target.value )}
                   required
-                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors"
+                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors text-black placeholder-gray-600"
                 >
                   <option value="">Select</option>
                   <option value="male">Male</option>
@@ -178,7 +178,7 @@ const SignUp = () => {
                   onChange={(e) => setAddress(e.target.value)}
                   required
                   placeholder="Enter your address"
-                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors"
+                  className="p-3 border-2 border-[#eca72f] rounded focus:border-[#d99527] focus:outline-none transition-colors text-black placeholder-gray-600"
                   rows={3}
                 />
               </div>

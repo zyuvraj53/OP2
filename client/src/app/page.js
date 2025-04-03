@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-oplight">
       <Navbar />
       <section
         style={{ backgroundImage: "url('/background.jpg')" }}
@@ -25,7 +25,7 @@ export default function Home() {
           OdishaPotli – Where Tradition Meets Handcrafted Elegance
         </div>
 
-        <div className="px-[1rem] lg:px-12 mt-6 md:mt-10 lg:pb-[0.1rem] lg:-mb-5 text-white text-sm sm:text-base md:text-lg leading-relaxed lg:text-left text-justify">
+        <div className="px-[1rem] lg:px-12 mt-6 md:mt-10 lg:pb-[0.1rem] lg:-mb-5 text-white text-sm sm:text-base md:text-lg leading-relaxed lg:text-left text-justify lg:max-w-3/4">
           OdishaPotli is your gateway to Odisha&apos;s rich heritage, offering a
           curated collection of handwoven sarees, handcrafted clothing, and
           traditional crafts, all meticulously created by skilled artisans. Our
@@ -52,10 +52,12 @@ export default function Home() {
 
       {/* <WelcomeToSocialsSection /> */}
 
+
+
       <StandardisationsAndAssociations />
 
-      <div className="flex flex-row justify-between font-bold">
-        <div className="text-[10vw] pl-[25vw] text-black">
+      <div className="flex flex-row justify-center items-center font-bold">
+        <div className="text-[6vw] text-black">
           <span className="text-amber-700">Contact</span> Us
         </div>
       </div>
