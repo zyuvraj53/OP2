@@ -111,7 +111,7 @@ export const updateProductController = async (req, res) => {
     const updatedProduct = await Product.findByIdAndUpdate(id, updates, {
       new: true,
     }).populate("category", "name");
-    
+
     res.status(200).json({
       success: true,
       message: "Product updated successfully",
@@ -154,8 +154,29 @@ export const deleteProductController = async (req, res) => {
 
 export const getAllProductsController = async (req, res) => {
   try {
-    const products = await Product.find().populate("category", "name").lean();
-    res.status(200).json({ success: true, products });
+    const page = parseInt(req.query.page) || 1;
+    const items = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * items;
+
+    const products = await Product.find()
+      .populate("category", "name")
+      .skip(skip)
+      .limit(items)
+      .lean();
+
+    const total = await Product.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      products,
+      pagination: {
+        total,
+        page,
+        items,
+        skip,
+        totalPages: Math.ceil(total / items),
+      },
+    });
   } catch (error) {
     console.error("Error fetching products:", error);
     res.status(500).json({
@@ -191,40 +212,57 @@ export const getProductByIdController = async (req, res) => {
 export const getProductsByCategory = async (req, res) => {
   try {
     const { categorySlug } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const items = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * items;
+
     const category = await Category.findOne({
       slug: categorySlug.trim().toLowerCase(),
     });
+
     if (!category) {
       return res
         .status(404)
         .json({ success: false, error: "Category not found" });
     }
 
-    let products;
+    let filter;
     if (!category.parent) {
       const subcategories = await Category.find({
         parent: category._id,
       }).select("_id");
-      const subcategoryIds = subcategories.length
-        ? subcategories.map((sub) => sub._id)
-        : [];
-      products = await Product.find({
-        category: { $in: [category._id, ...subcategoryIds] },
-      })
-        .populate("category", "name slug")
-        .lean();
+      const subcategoryIds = subcategories.map((sub) => sub._id);
+      filter = { category: { $in: [category._id, ...subcategoryIds] } };
     } else {
-      products = await Product.find({ category: category._id })
-        .populate("category", "name slug")
-        .lean();
+      filter = { category: category._id };
     }
 
-    res.status(200).json({ success: true, products });
+    const products = await Product.find(filter)
+      .populate("category", "name slug")
+      .skip(skip)
+      .limit(items)
+      .lean();
+
+    const total = await Product.countDocuments(filter);
+
+    res.status(200).json({
+      success: true,
+      products,
+      pagination: {
+        total,
+        page,
+        items,
+        skip,
+        totalPages: Math.ceil(total / items),
+      },
+    });
   } catch (error) {
     console.error("Error fetching products by category:", error);
-    res
-      .status(500)
-      .json({ success: false, error: "Server error", message: error.message });
+    res.status(500).json({
+      success: false,
+      error: "Server error",
+      message: error.message,
+    });
   }
 };
 
@@ -249,15 +287,33 @@ export const searchController = async (req, res) => {
 
 export const getNewProductController = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1; // default page 1
+    const limit = parseInt(req.query.limit) || 10; // default limit 10
+    const skip = (page - 1) * limit;
+
     const lastMonth = new Date();
     lastMonth.setMonth(lastMonth.getMonth() - 1);
-    lastMonth.setHours(0, 0, 0, 0); // Set time to start of the day
+    lastMonth.setHours(0, 0, 0, 0);
 
     const products = await Product.find({
       createdAt: { $gte: lastMonth },
-    }).populate("category", "name");
+    })
+      .populate("category", "name")
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 }); // Optional: newest first
 
-    res.status(200).json({ success: true, products });
+    const total = await Product.countDocuments({
+      createdAt: { $gte: lastMonth },
+    });
+
+    res.status(200).json({
+      success: true,
+      products,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
     console.error("Error fetching new products:", error.message);
     res.status(500).json({
