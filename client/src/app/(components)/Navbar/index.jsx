@@ -162,7 +162,7 @@ const Navbar = () => {
           isOpen
             ? "flex flex-col absolute top-16 left-0 right-0 bg-oplight shadow-md p-4 translate-y-0 opacity-100 bg-[#f0dcc4]"
             : "hidden -translate-y-full opacity-0"
-        } md:flex md:flex-row md:items-center md:gap-16 md:px-4 md:py-4 bg-[#97571c7d] md:rounded-md md:static md:shadow-none md:translate-y-0 md:opacity-100 transition-all duration-300 ease-in-out`}
+        } md:flex md:flex-row md:items-center md:gap-16 md:px-4 md:py-4 bg-[#97571c7d] md:rounded-md md:static md:shadow-none md:translate-y-0 md:opacity-100 transition-all duration-300 ease-in-out lg:shadow-lg`}
       >
         <Link
           href="/"
@@ -175,7 +175,7 @@ const Navbar = () => {
         {/* Shop Dropdown */}
         <div className="relative py-2 md:py-0" ref={shopDropdownRef}>
           <button
-            className="font-semibold text-xl text-black hover:text-gray-200 transition-colors flex items-center"
+            className="font-semibold text-xl text-black hover:text-[#35261bfa] transition-colors flex items-center"
             onClick={() => setIsShopOpen(!isShopOpen)}
           >
             Shop
@@ -212,7 +212,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between">
                   <Link
                     href={category.href}
-                    className="font-semibold text-lg text-black block px-2 py-1 hover:text-yellow-500 transition-colors flex-1"
+                    className="font-semibold text-lg text-black block px-2 py-1 hover:text-[#35261bfa] transition-colors flex-1"
                     onClick={() => {
                       setIsOpen(false);
                       setIsShopOpen(false);
@@ -250,7 +250,7 @@ const Navbar = () => {
                       <Link
                         key={sub.name}
                         href={sub.href}
-                        className="block px-2 py-1 text-black hover:text-yellow-500 transition-colors text-base"
+                        className="block px-2 py-1 text-black hover:text-[#35261bfa] transition-colors text-base"
                         onClick={() => {
                           setIsOpen(false);
                           setIsShopOpen(false);
@@ -269,14 +269,14 @@ const Navbar = () => {
 
         <Link
           href="/AboutUs"
-          className="font-semibold text-xl text-black hover:text-gray-200 transition-colors py-2 md:py-0"
+          className="font-semibold text-xl text-black hover:text-[#35261bfa] transition-colors py-2 md:py-0"
           onClick={() => setIsOpen(false)}
         >
           About Us
         </Link>
         <Link
           href="/Blogs"
-          className="font-semibold text-xl text-black hover:text-gray-200 transition-colors py-2 md:py-0"
+          className="font-semibold text-xl text-black hover:text-[#35261bfa] transition-colors py-2 md:py-0"
           onClick={() => setIsOpen(false)}
         >
           Blog
@@ -311,14 +311,14 @@ const Navbar = () => {
             <>
               <Link
                 href="/SignIn"
-                className="font-semibold text-xl text-black px-4 py-2 hover:text-yellow-500 transition-colors text-center"
+                className="font-semibold text-xl text-black px-4 py-2 hover:text-[#35261bfa] transition-colors text-center"
                 onClick={() => setIsOpen(false)}
               >
                 Sign-In
               </Link>
               <Link
                 href="/SignUp"
-                className="font-semibold text-xl text-black px-4 py-2 bg-yellow-500 rounded-full hover:bg-yellow-600 transition-colors text-center"
+                className="font-semibold text-xl text-black px-4 py-2 bg-[#97571c7d] rounded-full hover:bg-[#35261bfa] transition-colors text-center"
                 onClick={() => setIsOpen(false)}
               >
                 Sign-Up
@@ -355,13 +355,13 @@ const Navbar = () => {
           <>
             <Link
               href="/SignIn"
-              className="text-black px-4 py-2 hover:text-yellow-500 transition-colors"
+              className="text-black px-4 py-2 hover:text-[#97571c7d] transition-colors"
             >
               Sign-In
             </Link>
             <Link
               href="/SignUp"
-              className="text-black px-4 py-2 bg-yellow-500 rounded-full hover:bg-yellow-600 transition-colors"
+              className="text-black px-4 py-2 bg-[#97571c7d] rounded-full hover:bg-[#8d654afa] transition-colors hover:shadow-lg"
             >
               Sign-Up
             </Link>

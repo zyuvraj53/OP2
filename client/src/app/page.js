@@ -37,7 +37,7 @@ export default function Home() {
 
         <div className="flex justify-center items-center lg:justify-start">
           <Link href="/Shop/">
-            <div className="text-center lg:mx-32 mx-0 py-3 lg:py-6 mt-6 lg:ml-[3rem] ml-0 lg:mt-[5rem] lg:pt-5 lg:pl-2 font-bold text-xl lg:text-3xl bg-green-400 hover:bg-green-500 transition-colors duration-200 rounded-xl lg:w-[15rem] lg:h-[5rem] w-48 flex flex-row items-center justify-center">
+            <div className="text-center lg:mx-32 mx-0 py-3 lg:py-6 mt-6 lg:ml-[3rem] ml-0 lg:mt-[5rem] lg:pt-5 lg:pl-2 font-bold text-xl lg:text-3xl bg-[#97571c] hover:bg-[#7c4f2e] transition-colors duration-200 rounded-xl lg:w-[15rem] lg:h-[5rem] w-48 flex flex-row items-center justify-center hover:shadow-5xl">
               <button title="Explore!" onClick={() => {}}>
                 Explore Now!
               </button>

@@ -1,16 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/CartContext"; // custom Hook
 import Link from "next/link";
 import toast from "react-hot-toast";
 import Navbar from "../(components)/Navbar";
 
 const TestPage = () => {
   const { cart, loading, fetchCart, updateCartItem, removeFromCart} = useCart();
+
+  // cart - array of cart items
+  // loading - Boolean indicating if the cart data is being fetched
+  // updateCartItem - Function to fetch cart data
+  // updateCartItem - Function to update item quantity
+  // removeFromCart - Function to remove item from cart
   
   const [stockMap, setStockMap] = useState({});
 
+  // State object tracking available for each product, initialized as an empty object.
+
+  // Fetches data whenever fetchCart changes
   useEffect(() => {
     const fetchData = async () => {
       await fetchCart();
@@ -30,6 +39,7 @@ const TestPage = () => {
       setStockMap(newStockMap);
     }
   }, [cart, loading]);
+  // runs when cart or loading changes
 
   const handleUpdateQuantity = (productId, newQuantity) => {
     const currentStock = stockMap[productId] || 0;

@@ -7,25 +7,19 @@ const MeetTheTeam = () => {
     [
       {
         "id": 1,
-        "name": "Sarah Johnson",
-        "designation": "Lead Developer",
-        "imageSrc": "/LandingImage.png"
+        "name": "Rosalin Dash",
+        "designation": "Co-Founder",
+        "imageSrc": "/Rosalin.jpg"
       },
       {
         "id": 2,
-        "name": "Michael Chen",
-        "designation": "UI/UX Designer",
-        "imageSrc": "/LandingImage.png"
-      },
-      {
-        "id": 3,
-        "name": "Emily Rodriguez",
-        "designation": "Project Manager",
-        "imageSrc": "/LandingImage.png"
+        "name": "Jitu Mishra",
+        "designation": "Co-Founder",
+        "imageSrc": "/Jitu.jpg"
       },
     ];
   return (
-    <div className="min-h-screen bg-gray-100 py-12">
+    <div className="min-h-screen bg-gray-100 py-12 lg:px-0 px-4">
       <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">
         Our Team
       </h1>
@@ -36,7 +30,7 @@ const MeetTheTeam = () => {
         <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gray-800 h-full"></div>
 
         {/* Team members container */}
-        <div className="relative -space-y-16">
+        <div className="relative -space-y-2">
           {teamMembers.map((member, index) => (
             <div key={member.id} className="relative flex items-center">
               {/* Circle on the line */}

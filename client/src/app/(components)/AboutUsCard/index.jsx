@@ -1,19 +1,19 @@
 // components/Card.tsx
-import Image from 'next/image';
+import Image from "next/image";
 
 const AboutUsCard = ({
   imageSrc = "https://via.placeholder.com/150",
   name = "John Doe",
-  designation = "Senior Developer"
+  designation = "Senior Developer",
 }) => {
   return (
     <div className="max-w-sm rounded-lg shadow-lg overflow-hidden bg-white">
-      <div className="relative h-48 w-full">
+      <div className="relative h-48 lg:h-72 w-full">
         <Image
           src={imageSrc}
           alt={`${name}'s profile`}
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           className="rounded-t-lg"
         />
       </div>

@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}", // Scan all files in pages directory
     "./components/**/*.{js,ts,jsx,tsx}", // Scan all files in components directory
     "./app/**/*.{js,ts,jsx,tsx}", // Optional: if using App Router
@@ -35,6 +36,7 @@ module.exports = {
         tribalImg: "url('/Tribal.png')",
         blackOverlay:
           "linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba (0, 0, 0, 0.8) 100%)",
+        signupBg: "url('/SignUpBg.png')",
       },
     },
   },

@@ -9,12 +9,8 @@ function AboutUs() {
   return (
     <div className='bg-gray-100'>
       <Navbar />
-      <div className='-mt-[10rem]'>
         <WhoAreWe />
-      </div>
       <MeetTheTeam />
-
-      <AboutUsMarquee />
 
       <Footer />
     </div>
