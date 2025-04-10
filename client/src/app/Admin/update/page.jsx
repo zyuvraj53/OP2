@@ -6,30 +6,30 @@ import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const categories = [
-  "Nuapatna Silk",
-  "Sambalpuri Silk",
-  "Exclusive Cotton",
-  "Berhampuri Silk",
-  "Gopalpur Tussar",
-  "Maniabandha Cotton",
-  "Men's Fashion",
-  "Dupatta",
-  "Yardages",
-  "Cuttack Tarakasi",
-  "Dhokra of Odisha",
-  "Cushion Cover",
-  "Laptop Bags",
-  "Vanity Pouch",
-  "Coin Pouch",
-  "Handbag",
-  "Pattachitra",
-  "Lacquer Craft",
-  "Talapatra/Palm leaf",
-  "Hand-painted Box",
-  "Terracotta",
-  "Dhokra Art",
-  "Traditional Toys",
-  "Home Furnishing",
+  "nuapatna-silk",
+  "sambalpuri-silk",
+  "exclusive-cotton",
+  "berhampuri-silk",
+  "gopalpur-tussar",
+  "maniabandha-cotton",
+  "mens-fashion",
+  "dupatta",
+  "yardages",
+  "cuttack-tarakasi",
+  "dhokra-of-odisha",
+  "cushion-cover",
+  "laptop-bags",
+  "vanity-pouch",
+  "coin-pouch",
+  "handbag",
+  "pattachitra",
+  "lacquer-craft",
+  "talapatra-palm-leaf",
+  "hand-painted-box",
+  "terracotta",
+  "dhokra-art",
+  "traditional-toys",
+  "home-furnishing",
 ];
 
 export default function Admin() {
@@ -41,11 +41,17 @@ export default function Admin() {
   const [error, setError] = useState(null);
   const [isChecking, setIsChecking] = useState(false);
   const [formData, setFormData] = useState({
+    pid: "",
+    name: "",
+    description: "",
+    actualPrice: 0,
+    price: 0,
+    stock: 0,
+    category: "",
+    brand: "",
+    images: [],
     ratings: {
-      fakeRating: 0,
-      average: 0,
-      count: 0,
-      reviews: [],
+      fakeRating: null, // Only include what we can update
     },
   });
   const [updateSuccess, setUpdateSuccess] = useState(false);
@@ -59,7 +65,7 @@ export default function Admin() {
       } else {
         setIsLoading(false);
       }
-    }, 500);
+    }, 2500);
     return () => clearTimeout(timeoutId);
   }, [user, router]);
 
@@ -74,19 +80,25 @@ export default function Admin() {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/product/pid`,
-        { pid: searchPid.trim() },
-        {
-          withCredentials: true,
-        }
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/pid`,{
+          pid:searchPid.trim(),
+        },
+        { withCredentials: true }
       );
       const { product } = response.data;
       setProductData(product);
       setFormData({
-        ...product,
+        pid: product.pid || "",
+        name: product.name || "",
+        description: product.description || "",
+        actualPrice: product.actualPrice || 0,
+        price: product.price || 0,
+        stock: product.stock || 0,
+        category: product.category?.slug || "", // Assuming category is populated with slug
+        brand: product.brand || "",
+        images: product.images || [],
         ratings: {
-          ...product.ratings,
-          reviews: product.ratings.reviews || [],
+          fakeRating: product.ratings.fakeRating || null,
         },
       });
     } catch (err) {
@@ -94,11 +106,17 @@ export default function Admin() {
       setError("Product not found");
       setProductData(null);
       setFormData({
+        pid: "",
+        name: "",
+        description: "",
+        actualPrice: 0,
+        price: 0,
+        stock: 0,
+        category: "",
+        brand: "",
+        images: [],
         ratings: {
-          fakeRating: 0,
-          average: 0,
-          count: 0,
-          reviews: [],
+          fakeRating: null,
         },
       });
     } finally {
@@ -109,38 +127,59 @@ export default function Admin() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Handle nested ratings fields
     if (name.includes("ratings.")) {
-      const [parent, field] = name.split(".");
+      const [, field] = name.split(".");
       setFormData((prev) => ({
         ...prev,
-        [parent]: {
-          ...prev[parent],
-          [field]: Number(value),
+        ratings: {
+          ...prev.ratings,
+          [field]: value === "" ? null : Number(value),
         },
       }));
-    }
-    // Handle regular fields
-    else {
+    } else {
       setFormData((prev) => ({
         ...prev,
         [name]:
-          name.includes("Price") || name === "stock" ? Number(value) : value,
+          name === "actualPrice" || name === "price" || name === "stock"
+            ? Number(value)
+            : value,
       }));
     }
+  };
+
+  const handleImageChange = (e) => {
+    const { value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      images: value.split(",").map((url) => url.trim()), // Simple comma-separated input
+    }));
   };
 
   const handleUpdate = async () => {
     if (!productData) return;
 
+    const payload = {
+      pid: formData.pid,
+      name: formData.name,
+      description: formData.description,
+      actualPrice: formData.actualPrice,
+      price: formData.price,
+      stock: formData.stock,
+      category: formData.category, // Send slug
+      brand: formData.brand,
+      images: formData.images,
+      fakeRating: formData.ratings.fakeRating, // Send as top-level for consistency
+    };
+
     try {
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/product/${productData._id}`,
-        formData,
+        payload,
         {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true, // If your API requires credentials
         }
       );
       setUpdateSuccess(true);
@@ -178,7 +217,7 @@ export default function Admin() {
                     type="text"
                     value={searchPid}
                     onChange={(e) => setSearchPid(e.target.value)}
-                    className="flex-1 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[#eca72f] focus:border-transparent"
+                    className="flex-1 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[#eca72f] focus:border-transparent text-black placeholder-gray-600"
                     placeholder="Enter product PID"
                   />
                   <button
@@ -207,7 +246,9 @@ export default function Admin() {
 
             {productData && (
               <div className="mt-8">
-                <h2 className="text-xl font-semibold mb-4">Edit Product</h2>
+                <h2 className="text-xl font-semibold mb-4 text-black placeholder-gray-600">
+                  Edit Product
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
@@ -216,9 +257,9 @@ export default function Admin() {
                     <input
                       type="text"
                       name="pid"
-                      value={formData.pid || ""}
+                      value={formData.pid}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                       readOnly
                     />
                   </div>
@@ -229,9 +270,9 @@ export default function Admin() {
                     <input
                       type="text"
                       name="name"
-                      value={formData.name || ""}
+                      value={formData.name}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                     />
                   </div>
                   <div className="md:col-span-2">
@@ -240,9 +281,9 @@ export default function Admin() {
                     </label>
                     <textarea
                       name="description"
-                      value={formData.description || ""}
+                      value={formData.description}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                       rows={3}
                     />
                   </div>
@@ -253,9 +294,9 @@ export default function Admin() {
                     <input
                       type="number"
                       name="actualPrice"
-                      value={formData.actualPrice || ""}
+                      value={formData.actualPrice}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                       step="0.01"
                     />
                   </div>
@@ -266,22 +307,9 @@ export default function Admin() {
                     <input
                       type="number"
                       name="price"
-                      value={formData.price || ""}
+                      value={formData.price}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                      step="0.01"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Cut Price
-                    </label>
-                    <input
-                      type="number"
-                      name="cutPrice"
-                      value={formData.cutPrice || ""}
-                      onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                       step="0.01"
                     />
                   </div>
@@ -292,9 +320,9 @@ export default function Admin() {
                     <input
                       type="number"
                       name="stock"
-                      value={formData.stock || ""}
+                      value={formData.stock}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                     />
                   </div>
                   <div>
@@ -303,14 +331,14 @@ export default function Admin() {
                     </label>
                     <select
                       name="category"
-                      value={formData.category || ""}
+                      value={formData.category}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                     >
                       <option value="">Select a category</option>
                       {categories.map((category) => (
                         <option key={category} value={category}>
-                          {category}
+                          {category.replace(/-/g, " ")} {/* Display friendly name */}
                         </option>
                       ))}
                     </select>
@@ -322,9 +350,21 @@ export default function Admin() {
                     <input
                       type="text"
                       name="brand"
-                      value={formData.brand || ""}
+                      value={formData.brand}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Images (comma-separated URLs)
+                    </label>
+                    <input
+                      type="text"
+                      name="images"
+                      value={formData.images.join(", ")}
+                      onChange={handleImageChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                     />
                   </div>
                   <div>
@@ -334,11 +374,11 @@ export default function Admin() {
                     <input
                       type="number"
                       name="ratings.fakeRating"
-                      value={formData.ratings?.fakeRating || ""}
+                      value={formData.ratings.fakeRating || ""}
                       onChange={handleInputChange}
                       min="1"
                       max="5"
-                      className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                      className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-black placeholder-gray-600"
                     />
                   </div>
                 </div>
@@ -353,10 +393,10 @@ export default function Admin() {
                 </div>
 
                 <div className="mt-8">
-                  <h3 className="text-lg font-medium mb-2">
+                  <h3 className="text-lg font-medium mb-2 text-black placeholder-gray-600">
                     Current Product Data
                   </h3>
-                  <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm">
+                  <pre className="bg-gray-50 p-4 rounded-md overflow-x-auto text-sm text-black placeholder-gray-600">
                     {JSON.stringify(productData, null, 2)}
                   </pre>
                 </div>
@@ -364,15 +404,6 @@ export default function Admin() {
             )}
           </div>
         </div>
-      </div>
-
-      <div className="mt-6 flex flex-col space-y-4 w-48">
-        <button className="bg-[#eca72f] text-white text-center px-6 py-2 rounded-md hover:bg-[#d99527]">
-          Create Blog
-        </button>
-        <button className="bg-[#eca72f] text-white text-center px-6 py-2 rounded-md hover:bg-[#d99527]">
-          Set Order Details
-        </button>
       </div>
     </div>
   );

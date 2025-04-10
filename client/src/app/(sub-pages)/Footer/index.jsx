@@ -21,10 +21,8 @@ function Footer() {
       <div className="flex lg:flex-row flex-col justify-between">
         {/* Para */}
         <div className="lg:w-1/2 w-full lg:pl-6 pl-3 lg:pr-24 pr-3 pt-6 lg:text-left text-center text-xl text-semibold">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-          nulla itaque, veritatis consectetur earum, autem perspiciatis illum
-          libero aspernatur amet nam deleniti dolorum at sapiente atque
-          accusantium quod minima sit!
+        OdishaPotli is your gateway to authentic handmade sarees, crafts, and clothing from Odisha. We celebrate tradition by empowering artisans, ensuring sustainability, and offering exquisite handloom creations. Shop with us and embrace the heritage of Odisha with every purchase!
+
         </div>
 
         {/* Sections */}

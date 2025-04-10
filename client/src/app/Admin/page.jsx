@@ -12,6 +12,7 @@ import {
   CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
 import Image from "next/image"; // Added Next.js Image component
+import Link from "next/link";
 
 const categories = [
   "Nuapatna Silk",
@@ -69,31 +70,31 @@ export default function Admin() {
   }, [user, router]);
 
   // Fixed Line 85: Added proper typing for Cloudinary result
-  const handleUploadSuccess = (result) => {
+  const handleUploadSuccess = result => {
     if (!result.info || typeof result.info === "string") return;
     const newImage = {
       id: result.info.public_id,
       url: result.info.secure_url,
     };
-    setImages((prev) => [...prev, newImage]);
+    setImages(prev => [...prev, newImage]);
   };
 
-  const handleRemoveImage = (id) => {
-    setImages((prev) => prev.filter((img) => img.id !== id));
+  const handleRemoveImage = id => {
+    setImages(prev => prev.filter(img => img.id !== id));
   };
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = event => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
-      setImages((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
+      setImages(items => {
+        const oldIndex = items.findIndex(item => item.id === active.id);
+        const newIndex = items.findIndex(item => item.id === over.id);
         return arrayMove(items, oldIndex, newIndex);
       });
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     if (images.length === 0) {
       setSubmitError("At least one image is required");
       setSubmitSuccess(null);
@@ -109,7 +110,7 @@ export default function Admin() {
       stock: Number(data.stock),
       category: data.category,
       brand: data.brand,
-      images: images.map((img) => img.url),
+      images: images.map(img => img.url),
       ratings: {
         fakeRating: Number(data.fakeRating),
       },
@@ -304,7 +305,7 @@ export default function Admin() {
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
                 >
                   <option value="">Select a category</option>
-                  {categories.map((category) => (
+                  {categories.map(category => (
                     <option key={category} value={category}>
                       {category}
                     </option>
@@ -374,9 +375,9 @@ export default function Admin() {
                     collisionDetection={closestCenter}
                     onDragEnd={handleDragEnd}
                   >
-                    <SortableContext items={images.map((img) => img.id)}>
+                    <SortableContext items={images.map(img => img.id)}>
                       <div className="mt-4 space-y-2">
-                        {images.map((img) => (
+                        {images.map(img => (
                           <SortableImage
                             key={img.id}
                             id={img.id}
@@ -409,6 +410,11 @@ export default function Admin() {
         <button className="bg-[#eca72f] text-white text-center px-6 py-2 rounded-md hover:bg-[#d99527]">
           Set Order Details
         </button>
+        <Link href="/Admin/update">
+          <button className="bg-[#eca72f] text-white text-center px-6 py-2 rounded-md hover:bg-[#d99527]">
+            Update Orders
+          </button>
+        </Link>
       </div>
     </div>
   );

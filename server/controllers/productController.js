@@ -75,6 +75,7 @@ export const createProductController = async (req, res) => {
 };
 
 // ✅ Update a product by ID
+// ✅ Update a product by ID
 export const updateProductController = async (req, res) => {
   try {
     const { id } = req.params;
@@ -87,29 +88,32 @@ export const updateProductController = async (req, res) => {
         .json({ success: false, message: "Product not found" });
     }
 
+    // ✅ Find the category by its slug if provided
     if (category) {
-      const categoryExists = await Category.findById(category);
-      if (!categoryExists) {
-        return res
-          .status(400)
-          .json({ success: false, error: "Invalid category ID" });
+      const categoryData = await Category.findOne({ slug: category });
+      if (!categoryData) {
+        return res.status(400).json({
+          success: false,
+          error: "Invalid category slug. Please provide a valid slug.",
+        });
       }
-      updates.category = category;
+      updates.category = categoryData._id; // Use the category's _id
     }
 
-    // Handle fakeRating update if provided
+    // ✅ Handle fakeRating update if provided, consistent with create
     if (fakeRating !== undefined) {
       updates.ratings = {
         ...product.ratings,
-        fakeRating: Number(fakeRating),
+        fakeRating: fakeRating ? Number(fakeRating) : undefined, // Match create logic
       };
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(id, updates, {
       new: true,
     }).populate("category", "name");
+    
     res.status(200).json({
-      success: true, // Fixed syntax error here
+      success: true,
       message: "Product updated successfully",
       product: updatedProduct,
     });

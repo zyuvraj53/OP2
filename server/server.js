@@ -5,7 +5,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import session from "express-session";
 import passport from "passport";
-import "./config/passport.js"; // Import before using passport
+// import "./config/passport.js"; // Import before using passport
 import productRoutes from "./routes/productRoute.js";
 import categoryRoutes from "./routes/categoryRoute.js";
 import cartRoutes from "./routes/cartRoute.js";
@@ -35,6 +35,9 @@ app.use(morgan("dev"));
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:3000",
+    methods:["GET","POST","PUT","DELETE","OPTIONS"],
+    allowedHeaders:["Content-Type","Authorization"],
+    
     credentials: true,
   })
 );
