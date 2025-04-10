@@ -8,7 +8,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 const AuthContext = createContext(null);
 
 // AuthProvider Component
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Loading state to track API call
 
@@ -56,8 +56,6 @@ export const AuthProvider = ({children}) => {
       throw new Error("Logout failed");
     }
   };
-
-
 
   return (
     <AuthContext.Provider value={{ user, loading, login, logout }}>
