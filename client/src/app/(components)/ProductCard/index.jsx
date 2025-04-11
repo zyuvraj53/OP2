@@ -46,7 +46,7 @@ export default function ProductCard({ product }) {
     e.preventDefault();
 
     if (isInWishlist) {
-      removeFromWishlist(product._id); // Pass product ID directly
+      removeFromWishlist(product._id);
       if (isWishlistPage) {
         setIsVisible(false);
       }
@@ -55,7 +55,7 @@ export default function ProductCard({ product }) {
         position: "top-right",
       });
     } else {
-      addToWishlist(product._id); // Pass product ID directly
+      addToWishlist(product._id);
       toast.success(`${product.name} added to wishlist!`, {
         duration: 2000,
         position: "top-right",
@@ -69,7 +69,7 @@ export default function ProductCard({ product }) {
 
   return (
     <Link href={`/Shop/product/${product._id}`}>
-      <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow border border-gray-200 cursor-pointer relative">
+      <div className="bg-[#e0c09a] p-4 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out border border-gray-200 cursor-pointer relative">
         <div className="relative">
           {product.images.length > 0 ? (
             <img
@@ -82,7 +82,7 @@ export default function ProductCard({ product }) {
           )}
           {currentStock === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="bg-black bg-opacity-50 text-white px-4 py-2 rounded-md text-lg font-semibold">
+              <span className="bg-gray-600 bg-opacity-20 text-white px-4 py-2 rounded-md text-lg font-semibold">
                 Out of Stock
               </span>
             </div>
@@ -107,7 +107,7 @@ export default function ProductCard({ product }) {
           </motion.button>
         </div>
 
-        <h2 className="text-lg font-semibold text-[#eca72f]">{product.name}</h2>
+        <h2 className="text-lg font-semibold text-[#97571c]">{product.name}</h2>
         <div className="flex items-center gap-2">
           <p className="text-gray-700 text-lg">₹{product.price}</p>
           {product.cutPrice && (
@@ -133,7 +133,7 @@ export default function ProductCard({ product }) {
         <div className="flex gap-2">
           <button
             onClick={handleAddToCart}
-            className="flex-1 bg-[#d99527] text-white py-2 rounded-md hover:bg-[#eca72f] transition-colors flex items-center justify-center gap-2"
+            className="flex-1 bg-[#97571c] text-white py-2 rounded-md hover:bg-[#604a3bfa] hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center gap-2"
             disabled={currentStock === 0}
           >
             <ShoppingCart size={18} /> Add to Cart

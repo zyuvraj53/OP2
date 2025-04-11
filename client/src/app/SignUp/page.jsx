@@ -170,7 +170,7 @@ const SignUp = () => {
                     value={sex}
                     onChange={e => setSex(e.target.value)}
                     required
-                    className="p-3 border-2 border-[#97571c] rounded focus:border-[#35261b] focus:outline-none focus:shadow-md transition-colors text-black placeholder-[#97571c]"
+                    className="p-3 border-2 border-[#97571c] rounded focus:border-[#35261b] focus:outline-none focus:shadow-md transition-colors text-black placeholder-[#97571c] "
                   >
                     <option value="">Select</option>
                     <option value="male">Male</option>
