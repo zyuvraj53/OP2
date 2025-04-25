@@ -6,6 +6,7 @@ import Form from "./(components)/Form";
 import Footer from "./(sub-pages)/Footer";
 import StandardisationsAndAssociations from "./(sub-pages)/StdAndAss";
 import Link from "next/link";
+import WhoAreWeCarousel from "./(components)/WhoAreWeCarousel";
 
 export default function Home() {
   return (
@@ -46,7 +47,9 @@ export default function Home() {
         </div>
       </section>
 
-      <WhoAreWe />
+      <WhoAreWeCarousel/>
+
+      <hr/>
 
       <WhatOurCustomersHaveToSay />
 

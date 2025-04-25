@@ -190,7 +190,7 @@ export default function Admin() {
                 </label>
                 <input
                   {...register("pid", { required: "PID is required" })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                 />
                 {errors.pid && (
                   <p className="text-red-500 text-sm mt-1">
@@ -205,7 +205,7 @@ export default function Admin() {
                 </label>
                 <input
                   {...register("name", { required: "Name is required" })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                 />
                 {errors.name && (
                   <p className="text-red-500 text-sm mt-1">
@@ -222,7 +222,7 @@ export default function Admin() {
                   {...register("description", {
                     required: "Description is required",
                   })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                   rows={3}
                 />
                 {errors.description && (
@@ -244,7 +244,7 @@ export default function Admin() {
                     min: { value: 0, message: "Price must be positive" },
                     valueAsNumber: true,
                   })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                 />
                 {errors.actualPrice && (
                   <p className="text-red-500 text-sm mt-1">
@@ -265,7 +265,7 @@ export default function Admin() {
                     min: { value: 0, message: "Price must be positive" },
                     valueAsNumber: true,
                   })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                 />
                 {errors.price && (
                   <p className="text-red-500 text-sm mt-1">
@@ -285,7 +285,7 @@ export default function Admin() {
                     min: { value: 0, message: "Stock cannot be negative" },
                     valueAsNumber: true,
                   })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                 />
                 {errors.stock && (
                   <p className="text-red-500 text-sm mt-1">
@@ -302,7 +302,7 @@ export default function Admin() {
                   {...register("category", {
                     required: "Category is required",
                   })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                 >
                   <option value="">Select a category</option>
                   {categories.map(category => (
@@ -324,7 +324,7 @@ export default function Admin() {
                 </label>
                 <input
                   {...register("brand", { required: "Brand is required" })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                 />
                 {errors.brand && (
                   <p className="text-red-500 text-sm mt-1">
@@ -343,7 +343,7 @@ export default function Admin() {
                   {...register("fakeRating", {
                     valueAsNumber: true,
                   })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#eca72f] text-black"
                 />
                 {errors.fakeRating && (
                   <p className="text-red-500 text-sm mt-1">
