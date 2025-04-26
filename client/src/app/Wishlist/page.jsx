@@ -49,15 +49,6 @@ export default function WishlistPage() {
                 ))}
               </div>
 
-              <div className="mt-8 text-center">
-                <Link
-                  href="/checkout"
-                  className="bg-[#d99527] text-white py-3 px-8 rounded-md hover:bg-[#eca72f] transition-colors text-lg font-semibold inline-flex items-center gap-2"
-                >
-                  <ShoppingCart size={20} />
-                  Proceed to Checkout
-                </Link>
-              </div>
             </>
           ) : (
             <div className="text-center">

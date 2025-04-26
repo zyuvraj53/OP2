@@ -69,13 +69,13 @@ export default function ProductCard({ product }) {
 
   return (
     <Link href={`/Shop/product/${product._id}`}>
-      <div className="bg-[#e0c09a] p-4 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out border border-gray-200 cursor-pointer relative">
+      <div className="bg-[#e6c39a] p-4 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out border border-gray-200 cursor-pointer relative">
         <div className="relative">
           {product.images.length > 0 ? (
             <img
               src={product.images[0]}
               alt={product.name}
-              className="w-full h-48 object-cover rounded-md mb-4"
+              className="w-full h-72 object-cover rounded-md mb-4"
             />
           ) : (
             <div className="w-full h-48 bg-gray-200 rounded-md mb-4" />
@@ -107,33 +107,41 @@ export default function ProductCard({ product }) {
           </motion.button>
         </div>
 
-        <h2 className="text-lg font-semibold text-[#97571c]">{product.name}</h2>
         <div className="flex items-center gap-2">
-          <p className="text-gray-700 text-lg">₹{product.price}</p>
+          <p className="text-[#744d20] text-xl">₹{product.price}</p>
           {product.cutPrice && (
-            <p className="text-gray-500 line-through text-sm">
+            <p className="text-[#bf8d5b] line-through text-md">
               ₹{product.cutPrice}
             </p>
           )}
         </div>
+        <h2 className="text-2xl font-semibold text-[#97571c]">
+          {product.name}
+        </h2>
 
-        <div className="flex gap-1 text-[#d99527] mt-2 mb-4">
+        <div className="flex gap-1 text-[#744d20] mt-2 mb-4">
           {[...Array(5)].map((_, i) =>
             i < Math.round(product.ratings.average) ? (
-              <StarFilled key={i} size={20} fill="#d99527" />
+              <StarFilled key={i} size={20} fill="#744d20" />
             ) : (
               <Star key={i} size={20} />
             )
           )}
-          <span className="text-gray-600 text-sm ml-2">
-            ({product.ratings.count})
+          <span className="text-[#744d20] text-md ml-2">
+            {product.ratings.count === 0
+              ? "(No Reviews)"
+              : `(${product.ratings.count}) reviews`}
           </span>
+        </div>
+
+        <div className="mt-2 mb-4 text-[#744d20]">
+          Odisha-Potli
         </div>
 
         <div className="flex gap-2">
           <button
             onClick={handleAddToCart}
-            className="flex-1 bg-[#97571c] text-white py-2 rounded-md hover:bg-[#604a3bfa] hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center gap-2"
+            className="flex-1 bg-[#97571c] text-white py-2 rounded-md hover:bg-[#744d20] hover:scale-105 transition-all duration-200 ease-in-out flex items-center justify-center gap-2"
             disabled={currentStock === 0}
           >
             <ShoppingCart size={18} /> Add to Cart

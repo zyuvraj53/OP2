@@ -13,20 +13,20 @@ export default function Home() {
     <div className="bg-gray-100">
       <Navbar />
       <section
-        style={{ backgroundImage: "url('/background.jpg')" }}
+        style={{ backgroundImage: "url('/Frame_20.png')" }}
         className="bg-no-repeat bg-cover bg-bottom w-full h-screen"
       >
-        <div className="lg:text-[5rem] text-[10vw] lg:pl-10 pl-3 pt-3 font-bold text-white">
+        <div className="lg:text-[5rem] text-[10vw] lg:pl-10 pl-3 pt-10 font-bold text-[#744d20]">
           Discover
         </div>
-        <div className="lg:text-[5rem] text-[10vw] lg:pl-10 pl-3 font-bold text-white">
+        <div className="lg:text-[5rem] text-[10vw] lg:pl-10 pl-3 font-bold text-[#744d20] mt-0 lg:-mt-[2rem]">
           Odisha&apos;s Heritage
         </div>
-        <div className="pt-[2rem] lg:pt-[3rem] pl-[1rem] lg:pl-[3rem] text-sm lg:text-xl font-semibold text-white">
+        <div className="pt-[2rem] lg:pt-[2rem] pl-[1rem] lg:pl-[3rem] mt-0 lg:-mt-[2rem] text-sm lg:text-xl font-semibold text-[#744d20]">
           OdishaPotli – Where Tradition Meets Handcrafted Elegance
         </div>
 
-        <div className="px-[1rem] lg:px-12 mt-6 md:mt-10 lg:pb-[0.1rem] lg:-mb-5 text-white text-sm sm:text-base md:text-lg leading-relaxed lg:text-left text-justify lg:max-w-3/4">
+        <div className="px-[1rem] lg:px-12 mt-6 md:mt-10 lg:pb-[0.1rem] lg:-mb-5 text-[#744d20] text-sm sm:text-base md:text-lg leading-relaxed lg:text-left text-justify lg:max-w-2/3">
           OdishaPotli is your gateway to Odisha&apos;s rich heritage, offering a
           curated collection of handwoven sarees, handcrafted clothing, and
           traditional crafts, all meticulously created by skilled artisans. Our
