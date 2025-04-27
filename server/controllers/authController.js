@@ -215,33 +215,70 @@ export const getProfile = async (req, res) => {
         .json({ success: false, message: "Unauthorized: No token found" });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res
-          .status(401)
-          .json({ success: false, message: "Invalid or Expired Token" });
-      }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      const user = await User.findOne({ uid: decoded.uid }).select("-password");
-      if (!user) {
-        return res
-          .status(404)
-          .json({ success: false, message: "User not found" });
-      }
+    const user = await User.findOne({ uid: decoded.uid }).select("-password");
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
 
-      res.status(200).json({
-        success: true,
-        message: "Profile fetched successfully",
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role || "user",
-          images: user.images,
-        },
-      });
+    res.status(200).json({
+      success: true,
+      message: "Profile fetched successfully",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role || "user",
+        images: user.images,
+      },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server error", error });
+    res.status(401).json({
+      success: false,
+      message:
+        error.name === "TokenExpiredError"
+          ? "Token expired"
+          : error.name === "JsonWebTokenError"
+          ? "Invalid token"
+          : "Server error",
+      error: error.message,
+    });
   }
 };
+
+// import sendEmail from "../helpers/authHelper.js ";
+
+// export const forgotPassword = async (req, res) => {
+//   const { email } = req.body;
+//   const user = await User.findOne({ email });
+//   if (!user) return res.status(404).json({ msg: "User not found" });
+
+//   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+//     expiresIn: "15m",
+//   });
+//   const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`;
+
+//   await sendEmail(
+//     email,
+//     "Reset Password",
+//     `<a href="${resetLink}">Reset your password</a>`
+//   );
+//   res.json({ msg: "Password reset link sent" });
+// };
+
+// export const resetPassword = async (req, res) => {
+//   const { token } = req.params;
+//   const { newPassword } = req.body;
+
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const hashedPassword = await bcrypt.hash(newPassword, 10);
+//     await User.findByIdAndUpdate(decoded.id, { password: hashedPassword });
+//     res.json({ msg: "Password reset successful" });
+//   } catch {
+//     res.status(400).json({ msg: "Invalid or expired token" });
+//   }
+// };

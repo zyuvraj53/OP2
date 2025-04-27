@@ -6,6 +6,8 @@ import {
   logout,
   updateUser,
   getProfile,
+  // forgetPassword,
+  // resetPassword,
 } from "../controllers/authController.js";
 import { requireSignIn, isAdmin } from "../middleware/authMiddleware.js";
 
@@ -19,7 +21,8 @@ router.get("/logout", requireSignIn, logout);
 
 // Protected Routes
 router.get("/profile", requireSignIn, getProfile);
-
+// router.post("/forgot-password", forgotPassword);
+// router.post("/reset-password/:token", resetPassword);
 // (req, res) => {
 //   res.status(200).json({
 //     success: true,
