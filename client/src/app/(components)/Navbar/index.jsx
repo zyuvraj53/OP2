@@ -364,7 +364,7 @@ const Navbar = () => {
             </Link>
             <Link
               href="/Profile"
-              className="text-black px-4 py-2 bg-yellow-500 rounded-full hover:bg-yellow-600 transition-colors"
+              className="text-black hover:text-white px-4 py-2 bg-[#97571c7d] rounded-full hover:bg-[#35261bfa] transition-colors"
             >
               <User className="w-6 h-6" />
             </Link>

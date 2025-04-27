@@ -96,7 +96,7 @@ const WhoAreWeCarousel = () => {
                 product ? (
                   <div
                     key={product._id || index}
-                    className="embla__slide flex items-center justify-center w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] pr-10"
+                    className="embla__slide flex items-center justify-center w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px]"
                   >
                     <div className="rounded-xl overflow-hidden w-full">
                       <ProductCard
