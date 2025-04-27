@@ -6,6 +6,7 @@ import BlogCard from "../(components)/blog-card";
 import Link from "next/link";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Navbar from "../(components)/Navbar";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -34,20 +35,13 @@ export default function Blogs() {
   return (
     <main className="min-h-screen bg-white">
       {/* Header */}
-      <header className="container mx-auto p-6">
-        <Link href="/">
-          <div className="flex items-center gap-2">
-            <Paw className="h-5 w-5 text-amber-500" />
-            <span className="font-medium">Odisha Potli</span>
-          </div>
-        </Link>
-      </header>
+      <Navbar/>
 
       {/* Hero Section */}
       <section className="container mx-auto mt-4">
         <div className="relative flex flex-col md:flex-row items-start md:items-end gap-6 p-6 md:p-12">
           <div className="flex-1 flex bg-white flex-col justify-center z-10 lg:-mr-48 lg:mt-48">
-            <h1 className="lg:text-8xl font-bold md:text-5xl">Our Blog</h1>
+            <h1 className="lg:text-8xl font-bold md:text-5xl text-black">Our Blog</h1>
             <p className="mt-4 lg:text-4xl text-gray-800">
               Research and recommendations for modern stack websites.
             </p>

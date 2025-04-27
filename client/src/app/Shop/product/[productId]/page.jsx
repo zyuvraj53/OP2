@@ -137,7 +137,7 @@ export default function ProductPage() {
     );
 
   return (
-    <>
+    <div className="bg-white">
       <Navbar />
       <div className="min-h-screen bg-[#f0dcc4] p-4 sm:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
@@ -339,6 +339,6 @@ export default function ProductPage() {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

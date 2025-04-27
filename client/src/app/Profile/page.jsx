@@ -111,7 +111,7 @@ export default function ProfilePage() {
     );
 
   return (
-    <>
+    <div className="bg-white">
       <Navbar />
       <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
         <div className="max-w-4xl mx-auto flex flex-col gap-8">
@@ -237,6 +237,6 @@ export default function ProfilePage() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

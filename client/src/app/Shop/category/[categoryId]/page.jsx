@@ -93,7 +93,7 @@ export default function CategoryPage() {
   const [minPrice, maxPrice] = data ? getPriceRange(data) : [0, 600];
 
   return (
-    <>
+    <div className="bg-white">
       <Navbar />
       <div>
         <div className="min-h-screen flex flex-col md:flex-row bg-white">
@@ -358,6 +358,6 @@ export default function CategoryPage() {
           </main>
         </div>
       </div>
-    </>
+    </div>
   );
 }

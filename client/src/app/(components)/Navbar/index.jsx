@@ -2,12 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useAuth } from "../../context/AuthContext"; // Assuming you have an AuthContext
+import { useAuth } from "../../context/AuthContext";
 import { ShoppingCart, Heart, User } from "lucide-react";
 
-// Define types for categories and subcategories
 const Navbar = () => {
-  const { user } = useAuth(); // Get user from auth context
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [openSubcategory, setOpenSubcategory] = useState(null);
@@ -115,9 +114,28 @@ const Navbar = () => {
   }, [isShopOpen, timeoutId]);
 
   return (
-    <div className="flex flex-row items-center justify-between bg-[#f0dcc4] py-4 px-6 sticky top-0 z-10 shadow-md">
+    <div className="relative flex flex-row items-center justify-between bg-[#f0dcc4] md:bg-[#f0dcc4]/80 md:backdrop-blur-sm py-4 px-6 sticky top-0 z-10 shadow-md">
+      {/* Pseudo-element for pixelation effect in desktop view */}
+      <style jsx>{`
+        @media (min-width: 768px) {
+          .navbar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            image-rendering: pixelated;
+            z-index: -1;
+            transform: scale(0.25);
+            transform-origin: top left;
+          }
+        }
+      `}</style>
+
       {/* LOGO */}
-      <div className="flex flex-row items-center gap-2 font-bold text-2xl text-gray-800">
+      <div className="flex flex-row items-center gap-2 font-bold text-2xl text-gray-800 z-10">
         <span className="text-yellow-500">
           <Link href="/">
             <img
@@ -160,9 +178,9 @@ const Navbar = () => {
       <div
         className={`${
           isOpen
-            ? "flex flex-col absolute top-16 left-0 right-0 bg-oplight shadow-md p-4 translate-y-0 opacity-100 bg-[#f0dcc4]"
+            ? "flex flex-col absolute top-16 left-0 right-0 bg-[#f0dcc4] shadow-md p-4 translate-y-0 opacity-100"
             : "hidden -translate-y-full opacity-0"
-        } md:flex md:flex-row md:items-center md:gap-16 md:px-4 md:py-4 bg-[#97571c7d] md:rounded-md md:static md:shadow-none md:translate-y-0 md:opacity-100 transition-all duration-300 ease-in-out lg:shadow-lg`}
+        } md:flex md:flex-row md:items-center md:gap-16 md:px-4 md:py-4 md:bg-[#97571c7d] md:rounded-md md:static md:shadow-none md:translate-y-0 md:opacity-100 transition-all duration-300 ease-in-out lg:shadow-lg z-10`}
       >
         <Link
           href="/"
@@ -301,7 +319,7 @@ const Navbar = () => {
               </Link>
               <Link
                 href="/Profile"
-                className="font-semibold text-xl text-black px-4 py-2  bg-[#97571c7d]rounded-full transition-colors text-center"
+                className="font-semibold text-xl text-black px-4 py-2 bg-[#97571c7d] rounded-full transition-colors text-center"
                 onClick={() => setIsOpen(false)}
               >
                 <User className="w-6 h-6 lg:mr-2 mr-0" />
@@ -329,7 +347,7 @@ const Navbar = () => {
       </div>
 
       {/* Desktop buttons */}
-      <div className="hidden md:flex flex-row items-center gap-4 font-semibold text-xl">
+      <div className="hidden md:flex flex-row items-center gap-4 font-semibold text-xl z-10">
         {user ? (
           <>
             <Link
