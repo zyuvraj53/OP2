@@ -11,7 +11,7 @@ function Footer() {
           <img
             alt=""
             src="/Odisha_Potli_Logo.ico"
-            className="w-full h-16 object-cover rounded-md mb-2"
+            className="w-full h-16 object-contain rounded-md"
           />
         </Link>
         <div className="text-3xl text-bold mt-4 pl-6">Odisha Potli</div>
