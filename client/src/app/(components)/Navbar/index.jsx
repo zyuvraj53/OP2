@@ -139,7 +139,7 @@ const Navbar = () => {
         <span className="text-yellow-500">
           <Link href="/">
             <img
-              src="/Odisha_Potli_Logo.ico"
+              src="/Odisha_Potli_Logo.png"
               className="w-auto h-16 object-contain"
             />
           </Link>
