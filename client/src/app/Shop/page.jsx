@@ -77,10 +77,10 @@ export default function ProductsPage() {
   const [minPrice, maxPrice] = data ? getPriceRange(data) : [0, 600];
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#f0dcc4]">
       <Navbar />
       <div>
-        <div className="min-h-screen flex flex-col md:flex-row bg-white">
+        <div className="min-h-screen flex flex-col md:flex-row bg-[f0dcc4]">
           {/* Mobile Filter Button */}
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -117,11 +117,11 @@ export default function ProductsPage() {
                     {star <= (selectedRating || 0) ? (
                       <StarFilled
                         size={24}
-                        fill="#d99527"
-                        className="text-[#d99527]"
+                        fill="#97571c"
+                        className="text-[#97571c]"
                       />
                     ) : (
-                      <Star size={24} className="text-[#eca72f]" />
+                      <Star size={24} className="text-[#97571c]" />
                     )}
                   </button>
                 ))}

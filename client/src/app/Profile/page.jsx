@@ -165,7 +165,7 @@ export default function ProfilePage() {
               <OrdersList orders={orders} />
             </div>
           ) : (
-            <div className="text-center">
+            <div className="hidden text-center">
               <p className="text-lg text-gray-700 mb-4">You have no orders.</p>
               <button
                 onClick={() => router.push("/")}

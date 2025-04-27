@@ -77,10 +77,10 @@ export default function NewArrivalsPage() {
   const [minPrice, maxPrice] = data ? getPriceRange(data) : [0, 600];
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#f0dcc4]">
       <Navbar />
       <div>
-        <div className="min-h-screen flex flex-col md:flex-row bg-white">
+        <div className="min-h-screen flex flex-col md:flex-row bg-[#f0dcc4]">
           {/* Mobile Filter Button */}
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}

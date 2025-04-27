@@ -11,7 +11,7 @@ export default function WishlistPage() {
   const { wishlist } = useWishlist();
 
   return (
-    <>
+    <div className="bg-gray-50">
       <Navbar />
       <div className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-6xl mx-auto">
@@ -63,6 +63,6 @@ export default function WishlistPage() {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

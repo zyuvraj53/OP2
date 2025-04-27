@@ -84,11 +84,11 @@ const TestPage = () => {
   };
 
   return (
-    <>
+    <div className="bg-gray-100">
     <Navbar/>
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#d99527] mb-6">Your Cart</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#35261bfa] mb-6">Your Cart</h1>
 
         {loading ? (
           <p className="text-center text-gray-500">Loading cart...</p>
@@ -124,7 +124,7 @@ const TestPage = () => {
                     </Link>
 
                     <div className="flex-1">
-                      <h2 className="text-lg font-semibold text-[#eca72f]">
+                      <h2 className="text-lg font-semibold text-[#35261bfa]">
                         {item.productId ? item.productId.name : "Unknown Product"}
                       </h2>
                       <p className="text-gray-700">${item.price}</p>
@@ -133,14 +133,14 @@ const TestPage = () => {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleUpdateQuantity(productId, item.quantity - 1)}
-                        className="p-1 bg-gray-200 rounded-full hover:bg-[#eca72f] hover:text-white transition-colors"
+                        className="p-1 bg-[#97571c7d] rounded-full hover:bg-[#35261bfa] hover:text-white text-black transition-colors"
                       >
                         -
                       </button>
                       <span className="text-gray-700">{item.quantity}</span>
                       <button
                         onClick={() => handleUpdateQuantity(productId, item.quantity + 1)}
-                        className="p-1 bg-gray-200 rounded-full hover:bg-[#eca72f] hover:text-white transition-colors"
+                        className="p-1 bg-[#97571c7d] rounded-full hover:bg-[#35261bfa] text-black hover:text-white transition-colors"
                         disabled={currentStock <= item.quantity}
                       >
                         +
@@ -156,7 +156,7 @@ const TestPage = () => {
                           position: "top-right",
                         });
                       }}
-                      className="p-2 bg-gray-200 rounded-md hover:bg-[#eca72f] hover:text-white transition-colors"
+                      className="p-2 bg-[#97571c7d] rounded-md hover:bg-[#35261bfa] text-black hover:text-white transition-colors"
                     >
                       Remove
                     </button>
@@ -167,12 +167,12 @@ const TestPage = () => {
 
             {cart.filter(item => (stockMap[item.productId?._id] || item.productId?.stock || 0) > 0).length > 0 ? (
               <div className="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div className="text-xl font-semibold text-[#d99527]">
+                <div className="text-xl font-semibold text-[#35261bfa]">
                   Total: ${cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
                 </div>
                 <Link
                   href="/checkout"
-                  className="bg-[#d99527] text-white py-3 px-8 rounded-md hover:bg-[#eca72f] transition-colors text-lg font-semibold"
+                  className="bg-[#97571c7d] text-black hover:text-white py-3 px-8 rounded-md hover:bg-[#35261bfa] transition-colors text-lg font-semibold"
                 >
                   Proceed to Checkout
                 </Link>
@@ -202,7 +202,7 @@ const TestPage = () => {
         )}
       </div>
     </div>
-    </>
+    </div>
   );
 };
 

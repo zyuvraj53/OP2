@@ -89,7 +89,7 @@ export default function Home() {
 
       <div className="flex flex-row justify-center items-center font-bold">
         <div className="text-[6vw] text-black">
-          <span className="text-amber-700">Contact</span> Us
+          <span className="text-[#97571c]">Contact</span> Us
         </div>
       </div>
       <Form />

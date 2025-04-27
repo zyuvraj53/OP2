@@ -13,7 +13,7 @@ function StandardisationsAndAssociations() {
       <div className="lg:hidden block border border-gray-300 mx-8 "></div>
 
       <div className="text-[10vw] lg:text-[4rem] pl-9 lg:py-0 py-5 text-black lg:flex-[55]">
-        Our <span className="text-amber-700">Standardisations</span>
+        Our <span className="text-[#97571c]">Standardisations</span>
         <div className="flex flex-col justify-center items-center pt-10 lg:pt-52">
           <Image
             src="/Stand1.png"
@@ -48,7 +48,7 @@ function StandardisationsAndAssociations() {
       <div className="border border-gray-300 mx-8"></div>
 
       <div className="text-[10vw] lg:text-[4rem] pl-9 text-black lg:flex-[45]">
-        Our <span className="text-amber-700">Associations</span>
+        Our <span className="text-[#97571c]">Associations</span>
         <div className="flex flex-col justify-center items-center lg:pt-52">
           <div className="flex lg:flex-row flex-col">
             <Image
