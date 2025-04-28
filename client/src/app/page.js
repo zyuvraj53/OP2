@@ -50,17 +50,17 @@ export default function Home() {
       </section>
 
       {/* Mobile Section (visible on mobile, hidden on sm and above) */}
-      <section className="bg-no-repeat bg-cover bg-bottom w-full h-screen sm:hidden flex flex-col justify-center px-4 bg-[#e8c49c]">
-        <div className="lg:text-[5rem] text-[10vw] lg:pl-10 pl-3 -mt-16 font-bold text-[#744d20] text-left">
+      <section className="bg-no-repeat bg-cover bg-bottom w-full h-screen sm:hidden flex flex-col justify-center items-center text-center px-4 bg-[#e8c49c]">
+        <div className="lg:text-[5rem] text-[10vw] lg:pl-10 pl-3 -mt-16 font-bold text-[#744d20] text-left self-start">
           Discover
         </div>
-        <div className="lg:text-[5rem] text-[10vw] lg:pl-10 pl-3 font-bold text-[#744d20] mt-0 lg:-mt-[2rem]">
+        <div className="lg:text-[5rem] text-[10vw] lg:pl-10 pl-3 font-bold text-[#744d20] mt-0 lg:-mt-[2rem] self-start">
           Odisha&apos;s Heritage
         </div>
 
         <div
           style={{ backgroundImage: "url('Frame_20_mobile.png')" }}
-          className="w-full h-2/5"
+          className="w-full h-2/5 bg-[center_top] bg-cover"
         ></div>
         <div className="pt-[2rem] lg:pt-[2rem] pl-[0.5rem] lg:pl-[3rem] mt-0 lg:-mt-[2rem] text-sm lg:text-xl font-semibold text-[#744d20]">
           OdishaPotli – Where Tradition Meets Handcrafted Elegance
@@ -70,11 +70,13 @@ export default function Home() {
           Explore our curated collection of handwoven sarees and traditional
           crafts, crafted by Odisha&apos;s skilled artisans.
         </div>
-          <Link href="/Shop/" >
-            <div className="mt-6 py-3 w-40 bg-[#97571c] hover:bg-[#7c4f2e] transition-colors duration-200 rounded-lg font-bold text-lg text-white ml-[7rem] text-center">
+        <div>
+          <Link href="/Shop/">
+            <div className="mt-6 py-3 w-40 bg-[#97571c] hover:bg-[#7c4f2e] transition-colors duration-200 rounded-lg font-bold text-lg text-white text-center">
               <button title="Explore!">Shop Now!</button>
             </div>
           </Link>
+        </div>
       </section>
 
       <WhoAreWeCarousel />

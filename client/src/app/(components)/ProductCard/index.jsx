@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useCurrency } from "../../context/CurrencyContext";
+import { useAuth } from "../../context/AuthContext"; // Import AuthContext
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -20,6 +21,7 @@ export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const { currency, exchangeRates } = useCurrency();
+  const { user } = useAuth(); // Get user from AuthContext
   const [currentStock, setCurrentStock] = useState(product.stock);
   const [isVisible, setIsVisible] = useState(true);
   const pathname = usePathname();
@@ -59,6 +61,19 @@ export default function ProductCard({ product }) {
 
   const handleAddToCart = (e) => {
     e.preventDefault();
+    if (!user) {
+      // Show toast if user is not logged in
+      toast.error("Please log in to add items to your cart!", {
+        duration: 2000,
+        position: "top-right",
+        style: {
+          background: "#fff",
+          color: "#333",
+          border: "1px solid #d99527",
+        },
+      });
+      return;
+    }
     if (currentStock > 0) {
       addToCart(product._id);
       setCurrentStock((prevStock) => prevStock - 1);
@@ -76,7 +91,19 @@ export default function ProductCard({ product }) {
 
   const handleWishlistToggle = (e) => {
     e.preventDefault();
-
+    if (!user) {
+      // Show toast if user is not logged in
+      toast.error("Please log in to manage your wishlist!", {
+        duration: 2000,
+        position: "top-right",
+        style: {
+          background: "#fff",
+          color: "#333",
+          border: "1px solid #d99527",
+        },
+      });
+      return;
+    }
     if (isInWishlist) {
       removeFromWishlist(product._id);
       if (isWishlistPage) {
@@ -85,12 +112,22 @@ export default function ProductCard({ product }) {
       toast.success(`${product.name} removed from wishlist!`, {
         duration: 2000,
         position: "top-right",
+        style: {
+          background: "#fff",
+          color: "#333",
+          border: "1px solid #d99527",
+        },
       });
     } else {
       addToWishlist(product._id);
       toast.success(`${product.name} added to wishlist!`, {
         duration: 2000,
         position: "top-right",
+        style: {
+          background: "#fff",
+          color: "#333",
+          border: "1px solid #d99527",
+        },
       });
     }
   };
