@@ -3,6 +3,7 @@ import "./globals.css";
 import { WishlistProvider } from "./context/WishlistContext";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
+import { CurrencyProvider } from "./context/CurrencyContext";
 import { Toaster } from "react-hot-toast";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
@@ -25,12 +26,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
           <AuthProvider>
             <WishlistProvider>
               <CartProvider>
-                {children}
+                <CurrencyProvider>{children}</CurrencyProvider>
                 <Toaster />
               </CartProvider>
             </WishlistProvider>

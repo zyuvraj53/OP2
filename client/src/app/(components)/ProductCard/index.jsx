@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
+import { useCurrency } from "../../context/CurrencyContext";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -18,18 +19,49 @@ import { usePathname } from "next/navigation";
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const { currency, exchangeRates } = useCurrency();
   const [currentStock, setCurrentStock] = useState(product.stock);
   const [isVisible, setIsVisible] = useState(true);
   const pathname = usePathname();
   const isWishlistPage = pathname === "/Wishlist";
 
-  const isInWishlist = wishlist.some(item => item._id === product._id);
+  const isInWishlist = wishlist.some((item) => item._id === product._id);
 
-  const handleAddToCart = e => {
+  // Convert price to target currency
+  const convertPrice = (price) => {
+    if (!price) return price;
+    // If exchangeRates is INR-only, return price as-is (INR)
+    if (
+      Object.keys(exchangeRates).length === 1 &&
+      exchangeRates.INR === 1
+    ) {
+      return price;
+    }
+    if (!exchangeRates[currency.code]) return price; // Fallback to INR
+    const converted = (price * exchangeRates[currency.code]).toFixed(2);
+    return converted;
+  };
+
+  // Format price with currency symbol
+  const formatPrice = (price) => {
+    if (!price) return null;
+    // If exchangeRates is INR-only, force INR formatting
+    const effectiveCurrencyCode =
+      Object.keys(exchangeRates).length === 1 && exchangeRates.INR === 1
+        ? "INR"
+        : currency.code;
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: effectiveCurrencyCode,
+      currencyDisplay: "symbol",
+    }).format(price);
+  };
+
+  const handleAddToCart = (e) => {
     e.preventDefault();
     if (currentStock > 0) {
       addToCart(product._id);
-      setCurrentStock(prevStock => prevStock - 1);
+      setCurrentStock((prevStock) => prevStock - 1);
       toast.success(`${product.name} has been added to your cart!`, {
         duration: 2000,
         position: "top-right",
@@ -42,7 +74,7 @@ export default function ProductCard({ product }) {
     }
   };
 
-  const handleWishlistToggle = e => {
+  const handleWishlistToggle = (e) => {
     e.preventDefault();
 
     if (isInWishlist) {
@@ -75,6 +107,7 @@ export default function ProductCard({ product }) {
             <img
               src={product.images[0]}
               alt={product.name}
+              title={product.name}
               className="w-full h-72 object-cover rounded-md mb-4"
             />
           ) : (
@@ -108,14 +141,19 @@ export default function ProductCard({ product }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <p className="text-[#744d20] text-xl">₹{product.price}</p>
+          <p className="text-[#744d20] text-xl">
+            {formatPrice(convertPrice(product.price))}
+          </p>
           {product.cutPrice && (
             <p className="text-[#bf8d5b] line-through text-md">
-              ₹{product.cutPrice}
+              {formatPrice(convertPrice(product.cutPrice))}
             </p>
           )}
         </div>
-        <h2 className="text-2xl font-semibold text-[#97571c]">
+        <h2
+          className="text-2xl font-semibold text-[#97571c] overflow-hidden text-ellipsis line-clamp-2 max-w-full"
+          title={product.name}
+        >
           {product.name}
         </h2>
 
@@ -134,9 +172,7 @@ export default function ProductCard({ product }) {
           </span>
         </div>
 
-        <div className="mt-2 mb-4 text-[#744d20]">
-          Odisha-Potli
-        </div>
+        <div className="mt-2 mb-4 text-[#744d20]">Odisha-Potli</div>
 
         <div className="flex gap-2">
           <button
