@@ -213,7 +213,7 @@ export const getProductsByCategory = async (req, res) => {
   try {
     const { categorySlug } = req.params;
     const page = parseInt(req.query.page) || 1;
-    const items = parseInt(req.query.limit) || 10;
+    const items = parseInt(req.query.limit) || 999;
     const skip = (page - 1) * items;
 
     const category = await Category.findOne({
