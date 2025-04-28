@@ -155,7 +155,7 @@ export const deleteProductController = async (req, res) => {
 export const getAllProductsController = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const items = parseInt(req.query.limit) || 10;
+    const items = parseInt(req.query.limit) || 999;
     const skip = (page - 1) * items;
 
     const products = await Product.find()
