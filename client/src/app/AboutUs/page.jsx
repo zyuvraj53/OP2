@@ -7,7 +7,7 @@ import Footer from '../(sub-pages)/Footer'
 
 function AboutUs() {
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-[#e6c39a]'>
       <Navbar />
         <WhoAreWe />
       <MeetTheTeam />

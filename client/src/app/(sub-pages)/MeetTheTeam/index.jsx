@@ -19,13 +19,13 @@ const MeetTheTeam = () => {
       },
     ];
   return (
-    <div className="min-h-screen bg-gray-100 py-12 lg:px-0 px-4">
+    <div className="min-h-screen bg-[#e6c39a] py-12 lg:px-0 px-4">
       <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">
         Our Team
       </h1>
 
       {/* Container with vertical line */}
-      <div className="relative max-w-4xl mx-auto">
+      <div className="relative max-w-4xl mx-auto bg-[#e6c39a]">
         {/* Dark vertical line */}
         <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gray-800 h-full"></div>
 

@@ -59,7 +59,7 @@ export default function ProductCard({ product }) {
     }).format(price);
   };
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.preventDefault();
     if (!user) {
       // Show toast if user is not logged in
@@ -75,7 +75,7 @@ export default function ProductCard({ product }) {
       return;
     }
     if (currentStock > 0) {
-      addToCart(product._id);
+      await addToCart(product._id);
       setCurrentStock((prevStock) => prevStock - 1);
       toast.success(`${product.name} has been added to your cart!`, {
         duration: 2000,

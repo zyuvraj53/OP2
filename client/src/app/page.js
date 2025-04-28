@@ -10,7 +10,7 @@ import WhoAreWeCarousel from "./(components)/WhoAreWeCarousel";
 
 export default function Home() {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-[#e6c39a]">
       <Navbar />
 
       {/* Desktop/Tablet Section (visible on sm and above, hidden on mobile) */}

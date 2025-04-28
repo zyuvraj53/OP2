@@ -56,6 +56,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (productId, quantity = 1) => {
     try {
       const res = await axios.post(`${API_URL}/api/cart/add`, { productId, quantity }, { withCredentials: true });
+      console.log(res);
       setCart(res.data.cart?.items ?? []);
     } catch (error) {
       console.error("Add to Cart Error:", error);
