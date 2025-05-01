@@ -102,8 +102,8 @@ router.get(
     // 🔹 Store token in HTTP-only Cookie
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Lax for localhost
+      secure: true, // ✅ MUST be true on HTTPS
+      sameSite: "None", // ✅ Required for cross-site cookies
     });
 
     // 🔹 Redirect to Home Page on Success
