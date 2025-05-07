@@ -22,6 +22,9 @@ const router = express.Router();
 //   .catch((err) => console.error("MongoDB Connection Error:", err));
 
 // Session middleware
+
+// 🔹 Use cookie parser middleware here
+router.use(cookieParser());
 router.use(
   session({
     secret: process.env.SESSION_SECRET || "secret",
